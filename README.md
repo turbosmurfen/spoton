@@ -1,4 +1,6 @@
-![Image](https://github.com/turbosmurfen/spoton/blob/main/img/spoton_logo.png)
+<p align="center">
+  <img width="120" height="120" src="https://github.com/turbosmurfen/spoton/blob/main/img/spoton_logo.png">
+</p>
 
 # Spoton - Spotify now-playing for mIRC  
 A program written in C++ that make Spotify now-playing for mIRC. 
