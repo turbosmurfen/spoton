@@ -1,5 +1,5 @@
-# Spoton - Spotify DLL-file for mIRC  
-A program written in C++ that make Spotify to now-playing on mIRC. 
+# Spoton - Spotify now-playing for mIRC  
+A program written in C++ that make Spotify now-playing for mIRC. 
   
 ### This version of Spoton supports  
 mIRC 7.64  
