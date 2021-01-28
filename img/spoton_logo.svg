@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="128" height="128" viewBox="0 0 100 100">
+
+
+		<defs>
+			<linearGradient id="Gradient_2" gradientUnits="userSpaceOnUse" x1="50" y1="94" x2="50" y2="9" spreadMethod="pad">
+<stop offset="0%" stop-color="#C5C5C5"/>
+<stop offset="100%" stop-color="#FFFFFF"/>
+</linearGradient><linearGradient id="Gradient_3" gradientUnits="userSpaceOnUse" x1="22" y1="23" x2="94" y2="95" spreadMethod="pad">
+<stop offset="0%" stop-color="#000000" stop-opacity="0.5"/>
+<stop offset="100%" stop-color="#000000" stop-opacity="0.1"/>
+</linearGradient><linearGradient id="Gradient_4" gradientUnits="userSpaceOnUse" x1="50" y1="61" x2="50" y2="2" spreadMethod="pad">
+<stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.2"/>
+<stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.5"/>
+</linearGradient><linearGradient id="Gradient_5" gradientUnits="userSpaceOnUse" x1="50" y1="73" x2="50" y2="0" spreadMethod="pad">
+<stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.2"/>
+<stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.5"/>
+</linearGradient><linearGradient id="Gradient_6" gradientUnits="userSpaceOnUse" x1="50" y1="73" x2="50" y2="0" spreadMethod="pad">
+<stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.2"/>
+<stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.5"/>
+</linearGradient><g id="background">
+<path fill="url(#background-gradient)" stroke="none" d=" M 96.65 3.4 Q 93.25 0 88.5 0 L 11.5 0 Q 6.7 0 3.35 3.4 0 6.75 0 11.5 L 0 88.5 Q 0 93.3 3.35 96.65 6.7 100 11.5 100 L 88.5 100 Q 93.25 100 96.65 96.65 100 93.3 100 88.5 L 100 11.5 Q 100 6.75 96.65 3.4 Z"/>
+</g><g id="middle-1">
+<path fill="url(#Gradient_2)" stroke="none" d=" M 89 62.5 Q 90.95 56.25 90.95 50 90.95 34.7 81.15 23.4 80.1 22.2 78.95 21.05 67 9.05 50 9.05 41.65 9.05 34.05 12.25 26.7 15.4 21.05 21.05 15.4 26.7 12.25 34.05 9.05 41.65 9.05 50 9.05 56.4 11 62.5 13.65 74.2 22.1 82.25 23.45 83.5 24.9 84.65 35.85 93.5 50 93.5 64.15 93.5 75.1 84.65 85.95 76 89 62.5 M 50 14.85 Q 64.55 14.85 74.85 25.15 85.15 35.45 85.15 50 85.15 64.55 74.85 74.85 64.55 85.15 50 85.15 35.45 85.15 25.15 74.85 14.85 64.55 14.85 50 14.85 35.45 25.15 25.15 35.45 14.85 50 14.85 Z"/>
+
+<path fill="url(#Gradient_3)" stroke="none" d=" M 74.85 25.15 Q 64.55 14.85 50 14.85 35.45 14.85 25.15 25.15 14.85 35.45 14.85 50 14.85 64.55 25.15 74.85 35.45 85.15 50 85.15 64.55 85.15 74.85 74.85 85.15 64.55 85.15 50 85.15 35.45 74.85 25.15 M 100 42.25 L 81.15 23.4 Q 90.95 34.7 90.95 50 90.95 56.25 89 62.5 85.95 76 75.1 84.65 64.15 93.5 50 93.5 35.85 93.5 24.9 84.65 23.45 83.5 22.1 82.25 L 39.9 100 88.5 100 Q 93.25 100 96.65 96.65 100 93.3 100 88.5 L 100 42.25 Z"/>
+</g><g id="middle-2">
+<path fill="#000000" fill-opacity="0.2" stroke="none" d=" M 25.4 82.75 Q 14.7 74.65 10.8 61.9 13.75 75.55 24.65 84.5 35.7 93.5 50 93.5 64.3 93.5 75.35 84.5 86.25 75.55 89.15 61.9 85.3 74.65 74.6 82.75 63.7 90.95 50 90.95 36.3 90.95 25.4 82.75 Z"/>
+</g><mask id="mask">
+<path fill="#FFFFFF" stroke="none" d=" M 74.85 25.15 Q 64.55 14.85 50 14.85 35.45 14.85 25.15 25.15 14.85 35.45 14.85 50 14.85 64.55 25.15 74.85 35.45 85.15 50 85.15 64.55 85.15 74.85 74.85 85.15 64.55 85.15 50 85.15 35.45 74.85 25.15 Z"/>
+</mask><g id="gloss-top">
+<path fill="url(#Gradient_4)" stroke="none" d=" M 96.65 3.4 Q 93.25 0 88.5 0 L 11.5 0 Q 6.7 0 3.35 3.4 0 6.75 0 11.5 L 0 42.4 Q 9.95 50.65 22.6 55.1 35.75 59.75 50 59.75 64.25 59.75 77.4 55.1 90.05 50.65 100 42.4 L 100 11.5 Q 100 6.75 96.65 3.4 Z"/>
+</g><g id="gloss-right">
+<path fill="url(#Gradient_5)" stroke="none" d=" M 96.65 3.4 Q 93.25 0 88.5 0 L 11.5 0 Q 6.7 0 3.35 3.4 0 6.75 0 11.5 2.05 14.7 6.05 19.6 14.2 29.4 24.5 38.15 57.55 66.2 100 73 L 100 11.5 Q 100 6.75 96.65 3.4 Z"/>
+</g><g id="gloss-left">
+<path fill="url(#Gradient_6)" stroke="none" d=" M 96.65 3.4 Q 93.25 0 88.5 0 L 11.5 0 Q 6.7 0 3.35 3.4 0 6.75 0 11.5 L 0 73 Q 42.45 66.2 75.5 38.15 85.8 29.4 93.95 19.6 97.95 14.7 100 11.5 100 6.75 96.65 3.4 Z"/>
+</g>
+			
+	<linearGradient id="background-gradient" x1="0" y1="0" y2="1" x2="0">
+		<stop stop-color="#ee44eb" offset="0%"/>
+		<stop stop-color="#b722bb" offset="100%"/>
+	</linearGradient>
+
+			
+	<filter id="inner-shadow" x="-50%" y="-50%" width="200%" height="200%">
+		<feComponentTransfer in="SourceAlpha">
+			<feFuncA type="table" tableValues="1 0"/>
+		</feComponentTransfer>
+		<feComponentTransfer>
+			<feFuncA type="linear" slope="0.9"/>
+		</feComponentTransfer>
+		<feGaussianBlur stdDeviation="0"/>
+		<feOffset dx="-1.9999999999999998" dy="2" result="offsetblur"/>
+		<feFlood flood-color="#ffffff" result="color"/>
+		<feComposite in2="offsetblur" operator="in"/>
+		<feComposite in2="SourceAlpha" operator="in"/>
+		<feMerge>
+			<feMergeNode in="SourceGraphic"/>
+			<feMergeNode/>
+		</feMerge>
+	</filter>
+
+			
+	<filter id="drop-shadow">
+		<feGaussianBlur in="SourceAlpha" stdDeviation="0"/>
+		<feComponentTransfer>
+			<feFuncA type="linear" slope="0.9"/>
+		</feComponentTransfer>
+		<feOffset dx="-1.9999999999999998" dy="2" result="offsetblur"/>
+		<feFlood flood-color="#ffffff"/>
+		<feComposite in2="offsetblur" operator="in"/>
+		<feMerge>
+			<feMergeNode/>
+			<feMergeNode in="SourceGraphic"/>
+		</feMerge>
+	</filter>
+
+			<g transform="scale(4.166666666666667)" id="picture">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+    <path d="M5.93 3.501h12.62v13.243H5.93z" fill="none"/>
+    <path d="M12.24 5.156v5.822a2.028 2.028 0 0 0-1.052-.304c-1.162 0-2.103.988-2.103 2.207 0 1.22.941 2.207 2.103 2.207 1.162 0 2.104-.987 2.104-2.207V7.364h2.103V5.156z"/>
+</g>
+			
+		</defs>
+
+		
+
+			<use xlink:href="#background" fill="url(#background-gradient)"/>
+
+		<use xlink:href="#middle-1"/><use xlink:href="#middle-2"/>
+
+			<g mask="url(#mask)">
+				<g transform="             translate(                                 50 50 )                             translate(0 0)  scale(0.5)                               translate(                                 -50 -50 )">
+					<g filter="url(#drop-shadow)">
+						<use xlink:href="#picture" filter="url(#inner-shadow)"/>
+					</g>
+				</g>
+			</g>
+
+		
+
+			<use xlink:href="#gloss-top" opacity="1"/>
+
+
+	</svg>
