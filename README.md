@@ -1,3 +1,5 @@
+![Image](https://raw.githubusercontent.com/turbosmurfen/spoton/main/img/spoton_logo.png)
+
 # Spoton - Spotify now-playing for mIRC  
 A program written in C++ that make Spotify now-playing for mIRC. 
   
@@ -14,5 +16,5 @@ Spotify 1.1.51.380
 [Link To Wiki!](https://github.com/turbosmurfen/spoton/wiki/Howto)
 
 ### Example image for mIRC 7.64
-![Image](https://raw.githubusercontent.com/turbosmurfen/spoton/main/img/spoton_inuse.png)
+![Image](https://raw.githubusercontent.com/turbosmurfen/spoton/main/img/spoton_example.png)
 
