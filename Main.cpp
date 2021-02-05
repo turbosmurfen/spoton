@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <tchar.h>
+#include <json.hpp>
 #define WIN32_LEAN_AND_MEAN
 #pragma comment(linker, "/EXPORT:announce=_announce@24")
 #pragma comment(linker, "/EXPORT:creator=_creator@24")
