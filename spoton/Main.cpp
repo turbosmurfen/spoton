@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <tchar.h>
-#include <json.hpp>
+#include <iostream>
 #define WIN32_LEAN_AND_MEAN
 #pragma comment(linker, "/EXPORT:announce=_announce@24")
 #pragma comment(linker, "/EXPORT:creator=_creator@24")
@@ -29,7 +29,7 @@ static BOOL CALLBACK enumWindowCallback(HWND hWnd, LPARAM lparam) {
     }
     return TRUE;
 }
-static int readData(void) {
+void readData() {
     PROCESSENTRY32 entry;
     entry.dwSize = sizeof(PROCESSENTRY32);
 
@@ -50,11 +50,13 @@ static int readData(void) {
         EnumWindows(enumWindowCallback, NULL);
         pids.clear();
         if (title == "Spotify Premium") title = "1";
+        else if (title.empty()) {
+            title = "2";
+        }
     }
     else {
         title = "0";
     }
-    return 0;
 }
 
 extern "C" int __stdcall announce(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
