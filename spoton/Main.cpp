@@ -49,7 +49,7 @@ void readData() {
     if (!pids.empty()) {
         EnumWindows(enumWindowCallback, NULL);
         pids.clear();
-        if (title == "Spotify Premium") title = "1";
+        if (title == "Spotify Premium" || title =="Spotify Free") title = "1";
         else if (title.empty()) {
             title = "2";
         }
