@@ -11,7 +11,7 @@ Spotify 1.1.51.380
   
 ### TODO
 - [x] Read Artist and Title.  
-- [ ] Detect Spotify free.  
+- [x] Detect Spotify free.  
 - [ ] Read URI.   
 - [ ] Read total time of the song.  
   
