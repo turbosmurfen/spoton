@@ -7,7 +7,7 @@ A program written in C++ that make Spotify now-playing for mIRC.
   
 ### This version of Spoton supports  
 mIRC 7.64  
-Spotify 1.1.51.380  
+Spotify 1.1.51, 1.1.52 
   
 ### TODO
 - [x] Read Artist and Title.  
