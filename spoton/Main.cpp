@@ -1,4 +1,3 @@
-#include "pch.h"
 #include <cstdio>
 #include <windows.h>
 #include <tlhelp32.h>
@@ -50,11 +49,8 @@ void readData() {
         EnumWindows(enumWindowCallback, NULL);
         pids.clear();
         if (title == "Spotify Premium" || title == "Spotify Free") title = "1";
-        else if (title.empty()) {
+        else if (title == "Advertisement" || title.empty() || title.find("-") == string::npos) {
             title = "2";
-        }
-        else if (title == "Advertisement") {
-            title = "3";
         }
     }
     else {
@@ -73,7 +69,7 @@ extern "C" int __stdcall announce(HWND mWnd, HWND aWnd, CHAR * data, char* parms
 }
 extern "C" int __stdcall creator(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
-    char cby[] = "Created By: Turbosmurfen - Site: Https://www.turbosmurfen.com - Contact: contact@turbosmurfen.com";
+    char cby[] = "Created By: Turbosmurfen - Contact: turbosmurfen@protonmail.com";
     strcpy_s(data, strlen(cby) + 1, cby);
     return 3;
 }
