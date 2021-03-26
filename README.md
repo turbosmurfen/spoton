@@ -10,8 +10,10 @@ mIRC: 7.64
 Spotify: 1.1.51 - 1.1.54
   
 ### TODO
-- [x] Read Artist and Title.  
-- [x] Detect Spotify free.  
+- [x] Read Artist and Title from Spotify Window.  
+- [x] Check if Spotify is not running.  
+- [x] Check if Sptoify is paused.
+- [ ] Check if Spotify is playing Advertisement (100% working version).
 - [ ] Read URI.   
 - [ ] Read total time of the song.  
   
