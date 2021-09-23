@@ -7,11 +7,13 @@
 # Spoton - Spotify now-playing for mIRC  
 A program written in C++ that make Spotify now-playing for mIRC. 
   
-### This version of Spoton supports  
-mIRC: 7.64 - 7.65  
-Spotify: 1.1.51 - 1.1.58
+### This version of Spoton supports
+  
+mIRC: 7.64 - 7.66  
+Spotify: 1.1.51 - 1.1.68  
   
 ### TODO
+  
 - [x] Read Artist and Title from Spotify Window.  
 - [x] Check if Spotify is not running.  
 - [x] Check if Sptoify is paused.
