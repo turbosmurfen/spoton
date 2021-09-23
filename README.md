@@ -1,5 +1,3 @@
-## Spoton is at the moment not been working on. I have so many others project I'm working on at the moment.
-
 <p align="center">
   <img width="120" height="120" src="https://github.com/turbosmurfen/spoton/blob/main/img/spoton_logo.png">
 </p>
