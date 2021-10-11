@@ -69,7 +69,7 @@ extern "C" int __stdcall announce(HWND mWnd, HWND aWnd, CHAR * data, char* parms
 }
 extern "C" int __stdcall creator(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
-    char cby[] = "Created By: Turbosmurfen - Contact: turbosmurfen@protonmail.com";
+    char cby[] = "Created By: Turbosmurfen";
     strcpy_s(data, strlen(cby) + 1, cby);
     return 3;
 }
