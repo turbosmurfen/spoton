@@ -1,69 +1,58 @@
 #include <cstdio>
 #include <windows.h>
-#include <tlhelp32.h>
 #include <string>
 #include <vector>
-#include <tchar.h>
 #include <iostream>
 #define WIN32_LEAN_AND_MEAN
 #pragma comment(linker, "/EXPORT:announce=_announce@24")
 #pragma comment(linker, "/EXPORT:creator=_creator@24")
+#pragma comment(linker, "/EXPORT:pause=_pause@24")
+#pragma comment(linker, "/EXPORT:next=_next@24")
+#pragma comment(linker, "/EXPORT:prev=_prev@24")
 using namespace std;
-vector<DWORD> pids;
-string title{};
+string title{"0"};
+HWND hWNd{};
 static BOOL CALLBACK enumWindowCallback(HWND hWnd, LPARAM lparam) {
-    DWORD proc;
-    GetWindowThreadProcessId(hWnd, &proc);
+    string wClass{};
     int length = GetWindowTextLength(hWnd);
     char* buffer = new char[length + 1];
     GetWindowTextA(hWnd, buffer, length + 1);
-    string windowTitle(buffer);
+    string wTitle(buffer);
+    char* buffer0 = new char[256];
+    GetClassNameA(hWnd, buffer0, 256);
+    wClass = buffer0;
 
-    if (length != 0 && find(pids.begin(), pids.end(), proc) != pids.end()) {
-        if (IsWindowVisible(hWnd)) {
-            title = windowTitle;
-
-        }
-
+    if (IsWindowVisible(hWnd) && length != 0 && wClass == "Chrome_WidgetWin_0") {
+        title = wTitle;
+        hWNd = hWnd;
     }
+
     return TRUE;
-}
-void readData() {
-    PROCESSENTRY32 entry;
-    entry.dwSize = sizeof(PROCESSENTRY32);
-
-    HANDLE handle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
-
-    if (Process32First(handle, &entry) == TRUE)
-    {
-        while (Process32Next(handle, &entry) == TRUE)
-        {
-            if (_tcsicmp(entry.szExeFile, _T("Spotify.exe")) == 0)
-            {
-                pids.push_back(entry.th32ProcessID);
-            }
-        }
-    }
-    CloseHandle(handle);
-    if (!pids.empty()) {
-        EnumWindows(enumWindowCallback, NULL);
-        pids.clear();
-        if (title == "Spotify Premium" || title == "Spotify Free") title = "1";
-        else if (title == "Advertisement" || title.empty() || title.find("-") == string::npos) {
-            title = "2";
-        }
-    }
-    else {
-        title = "0";
-    }
 }
 
 extern "C" int __stdcall announce(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
-    readData();
-    char* cstr = new char[title.size() + 1];
-    title.copy(cstr, title.size() + 1);
-    cstr[title.size()] = '\0';
+    EnumWindows(enumWindowCallback, NULL);
+    string output{ "0" };
+    if (title == "Advertisement" || title.find("-") == 0) {
+        output = "2";
+    }
+    else if (!title.empty()) {
+
+        if (title == "Spotify Premium" || title == "Spotify Free") {
+            output = "1";
+        }
+        else {
+            output = title;
+        }
+    }
+    else {
+        output = "0";
+    }
+    
+    char* cstr = new char[output.size() + 1];
+    output.copy(cstr, output.size() + 1);
+    cstr[output.size()] = '\0';
     strcpy_s(data, strlen(cstr) + 1, cstr);
     return 3;
 }
@@ -72,4 +61,25 @@ extern "C" int __stdcall creator(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
     char cby[] = "Created By: Turbosmurfen";
     strcpy_s(data, strlen(cby) + 1, cby);
     return 3;
+}
+
+extern "C" int __stdcall pause(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
+{
+    EnumWindows(enumWindowCallback, NULL);
+    if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PLAY_PAUSE * 0x10000);
+    return 2;
+}
+
+extern "C" int __stdcall next(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
+{
+    EnumWindows(enumWindowCallback, NULL);
+    if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_NEXTTRACK * 0x10000);
+    return 2;
+}
+
+extern "C" int __stdcall prev(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
+{
+    EnumWindows(enumWindowCallback, NULL);
+    if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PREVIOUSTRACK * 0x10000);
+    return 2;
 }
