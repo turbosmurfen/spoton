@@ -7,7 +7,7 @@ on:
     types: [opened, synchronize]
     branches: [main]
   schedule:
-    - cron: '18 3 * * 2'
+    - cron: '18 20 * * 1'
 
 env:
   # Path to the solution file relative to the root of the project.
@@ -37,7 +37,7 @@ jobs:
 
       - name: Build debuggable x86 plugin DLL
         working-directory: ${{ github.workspace }}
-        run: msbuild /m /p:Configuration="Debug" /p:Platform="x86" ${{ env.SOLUTION_FILE_PATH }}
+        run: msbuild /m /p:Configuration="Debug" /p:Platform="x86" /p:PlatformToolset="v143" ${{ env.SOLUTION_FILE_PATH }}
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
