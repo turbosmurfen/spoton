@@ -38,6 +38,7 @@ https://creativecommons.org/licenses/by-nc/4.0/
 #pragma comment(linker, "/EXPORT:pause=_pause@24")
 #pragma comment(linker, "/EXPORT:next=_next@24")
 #pragma comment(linker, "/EXPORT:prev=_prev@24")
+#pragma comment(linker, "/EXPORT:rplay=_rplay@24")
 using namespace std;
 
 string title{""};
@@ -85,11 +86,11 @@ static BOOL CALLBACK enumWindowCallback(HWND hWnd, LPARAM lparam) {
 }
 
 
-
+//Writes out title of the song
 extern "C" int __stdcall song(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
     EnumWindows(enumWindowCallback, NULL);
-    if (status_ == 3) {
+    if (status_ != 0) {
         char* cstr = new char[title.size() + 1];
         title.copy(cstr, title.size() + 1);
         cstr[title.size()] = '\0';
@@ -97,6 +98,7 @@ extern "C" int __stdcall song(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BO
     }
     return 3;
 }
+
 extern "C" int __stdcall creator(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
     char cby[] = "Created By: Turbosmurfen";
@@ -104,6 +106,12 @@ extern "C" int __stdcall creator(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
     return 3;
 }
 
+/* Check for status
+* 0 - Spotify is not running
+* 1 - Spotify is paused
+* 2 - Spotfy is playing Advertisement
+* 3 - Spotify is playing 
+*/
 extern "C" int __stdcall status(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
     EnumWindows(enumWindowCallback, NULL);
@@ -117,6 +125,8 @@ extern "C" int __stdcall status(HWND mWnd, HWND aWnd, CHAR * data, char* parms, 
 
 // Here starts the commands for Spotify Media Player.
 
+
+//Execute pause track for Spotify Media Player
 extern "C" int __stdcall pause(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
     EnumWindows(enumWindowCallback, NULL);
@@ -125,7 +135,7 @@ extern "C" int __stdcall pause(HWND mWnd, HWND aWnd, CHAR * data, char* parms, B
     }
     return 0;
 }
-
+//Execute play track for Spotify Media Player
 extern "C" int __stdcall play(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
     EnumWindows(enumWindowCallback, NULL);
@@ -134,7 +144,7 @@ extern "C" int __stdcall play(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BO
     }
     return 0;
 }
-
+//Execute next track for Spotify Media Player
 extern "C" int __stdcall next(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
     EnumWindows(enumWindowCallback, NULL);
@@ -142,9 +152,21 @@ extern "C" int __stdcall next(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BO
     return 0;
 }
 
-extern "C" int __stdcall prev(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
+//Execute replay track for Spotify Media Player
+extern "C" int __stdcall rplay(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
     EnumWindows(enumWindowCallback, NULL);
     if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PREVIOUSTRACK * 0x10000);
+    return 0;
+}
+
+//Execute previous track for Spotify Media Player
+extern "C" int __stdcall prev(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
+{
+    EnumWindows(enumWindowCallback, NULL);
+    if (hWNd) {
+        SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PREVIOUSTRACK * 0x10000);
+        SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PREVIOUSTRACK * 0x10000);
+    }
     return 0;
 }

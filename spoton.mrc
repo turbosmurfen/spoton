@@ -1,7 +1,7 @@
 ;Welcome to SpotOn mIRC Addon. Since this is only in beta.
 ;You could not do so much. I'm not a good MSL coder, so this is the result in beta.
 ;
-; Spoton v1.0.7 is supported since this beta release.
+; This addon works best with Spoton 1.0.8 or later.
 
 menu menubar,channel {
   -
@@ -12,6 +12,7 @@ menu menubar,channel {
   .-
   .Control
   ..Play:/dll spoton.dll play
+  ..Replay:/dll spoton.dll rplay
   ..Pause:/dll spoton.dll pause
   ..Next:/dll spoton.dll next
   ..Previous:/dll spoton.dll prev
