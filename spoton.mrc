@@ -3,9 +3,8 @@
 ;
 ; Spoton v1.0.7 is supported since this beta release.
 
-
-
-menu menubar {
+menu menubar,channel {
+  -
   SpotOn $+([,$replace($dll($spfind,status,0),0,Not Running,1,Paused,2,Advertisement,3,Playing),])
   .Menu
   ..Open Menu:spssh | dialog -m sps sps
@@ -16,26 +15,12 @@ menu menubar {
   ..Pause:/dll spoton.dll pause
   ..Next:/dll spoton.dll next
   ..Previous:/dll spoton.dll prev
+  .$iif($menu == channel,-)
+  .$iif($menu == channel,Say):snp
 }
-
-menu channel {
-  SpotOn $+([,$replace($dll($spfind,status,0),0,Not Running,1,Paused,2,Advertisement,3,Playing),])
-  .Menu
-  ..Open Menu:spssh | dialog -m sps sps
-  ..Says:spotwin
-  .-
-  .Control
-  ..Play:/dll spoton.dll play
-  ..Pause:/dll spoton.dll pause
-  ..Next:/dll spoton.dll next
-  ..Previous:/dll spoton.dll prev
-  .-
-  .Say:snp
-}
-
 
 dialog sps {
-  title ""
+  title "SpotOn"
   size -1 -1 187 64
   option dbu
   box "", 1, 1 0 185 53
@@ -46,10 +31,8 @@ dialog sps {
   button "List", 6, 152 21 29 10, flat disable
 }
 
-
 on *:dialog:sps:*:*:{
   if ($devent == init) {
-    dialog -t $dname SpotOn
     did -a $dname 4 $spfrmx
     if ($lines(says.txt) > 0) { did -e $dname 6 }
     if (%saythis) {
@@ -59,15 +42,15 @@ on *:dialog:sps:*:*:{
   }
   if ($devent == sclick) {
     if ($did == 5) {
-      if (!$read(says.txt, w, * $+ $did(2))) {
+      if (!$read(says.txt, nw, * $+ $did(2))) {
         set %saythis $did(2)
         var %line = $iif($lines(says.txt) == 0,1,$calc($v1 +1))
         write says.txt %line $+ $chr(144) $+ $did(2)
       }
-      else { noop $input(The Say is already in the list!,ow,SpotOn,2) | set %saythis $did(2) }
+      else { noop $input(The Say is already in the list!,woud,SpotOn) | set %saythis $did(2) }
       did -e $dname 6
     }
-    if ($did == 6) { $iif($window(@saylist) != $null,window -c @saylist,spotwin) }
+    if ($did == 6) { $iif($window(@saylist),window -c @saylist,spotwin) }
     if ($did == 3) { did -r $dname 2 | spssh }
   }
   if ($devent == edit) {
@@ -81,7 +64,6 @@ on *:dialog:sps:*:*:{
   }
   if ($devent == close) { window -c @spss | window -c @saylist }
 }
-
 
 ;Generate Image into the tool
 alias -l spssh {
@@ -101,7 +83,7 @@ alias -l spssh {
     drawrect -rf @spss $rgb(face) 1 0 0 360 15
   }
   drawsave @spss spssh.bmp
-  $iif($dialog(sps) != $null,did -g sps 3 spssh.bmp)
+  $iif($dialog(sps),did -g sps 3 spssh.bmp)
   window -c @spss
 }
 
@@ -117,12 +99,12 @@ alias -l spfrmx {
 alias -l spotwin {
   if ($lines(says.txt) > 0) {
     clear @saylist
-    var %x = $iif($dialog(sps) != $null,$calc($dialog(sps).x + $dialog(sps).w),-1)
-    var %y = $iif($dialog(sps) != $null,$dialog(sps).y,-1)
+    var %x = $iif($dialog(sps),$calc($dialog(sps).x + $dialog(sps).w),-1)
+    var %y = $iif($dialog(sps),$dialog(sps).y,-1)
     window -ak0ld $+ $iif($dialog(sps) == $null,C) +L @saylist %x %y 200 200
     var %o = 1
     while (%o <= $lines(says.txt)) {
-      aline @saylist $+($chr(2),%o,.,$chr(2),$chr(160),$gettok($read(says.txt,%o),2,144))
+      aline @saylist $+($chr(2),%o,.,$chr(2),$chr(160),$gettok($read(says.txt,n,%o),2,144))
       inc %o
     }
   }
@@ -132,8 +114,8 @@ alias -l spotwin {
 ;Select and Remove says.
 menu @saylist {
   dclick:{
-    if ($sline(@saylist,1) != $null) {
-      if ($dialog(sps) != $null) {
+    if ($sline(@saylist,1)) {
+      if ($dialog(sps)) {
         did -ra sps 2 $gettok($sline(@saylist,1),2,160)
         spssh $gettok($sline(@saylist,1),2,160)
         did -e sps 5
@@ -166,10 +148,10 @@ alias -l spc {
 
 ;Checks if spoton.dll exists and return the path
 alias -l spfind {
-  if ($exists($+($nofile($script),spoton.dll)) == $true) {
+  if ($exists($+($nofile($script),spoton.dll))) {
     return $+($nofile($script),spoton.dll)
   }
-  else { !echo -ag * Can't find the DLL-file. | halt }
+  else { echo -ag * Can't find the DLL-file. | halt }
 }
 
 ;If SpotOn is playing a song (Status Code: 3), write out to the channel/pm.
@@ -177,18 +159,22 @@ alias snp {
   if ($dll($spfind,status,0) == 3) {
     say $spfrm(%saythis)
   }
-  else { !echo -ag * Spotify is $replace($dll($spfind,status,0),0,Not running,1,Paused,2,Playing Advertisement) | halt }
+  else { echo -ag * Spotify is $replace($dll($spfind,status,0),0,Not running,1,Paused,2,Playing Advertisement) | halt }
 }
 
 ;Setup everything that is needed when loaded.
 on *:load:{
-  set %saythis Spotify » [song]
+  if (!%saythis) { set %saythis Spotify » [song] }
   spssh
-  !echo -ag Spoton is loaded!
+  echo -ag Spoton is loaded!
 }
 
 on *:unload:{
+  if ($dialog(sps)) { dialog -x sps }
+  if ($isfile(spssh.bmp)) { .remove spssh.bmp }
+  if ($window(@saylists)) { window -c $v1 }
+  if ($window(@spss)) { window -c $v1 }
+  if ($isfile(says.txt)) { .remove says.txt }
   unset %saythis
-  remove spssh.bmp
-  !echo -ag SpotOn is now unloaded!
+  echo -ag SpotOn is now unloaded!
 }
