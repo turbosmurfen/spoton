@@ -31,15 +31,41 @@ https://creativecommons.org/licenses/by-nc/4.0/
 #include <vector>
 #include <iostream>
 #define WIN32_LEAN_AND_MEAN
-#pragma comment(linker, "/EXPORT:announce=_announce@24")
+#pragma comment(linker, "/EXPORT:song=_song@24")
 #pragma comment(linker, "/EXPORT:creator=_creator@24")
+#pragma comment(linker, "/EXPORT:status=_status@24")
+#pragma comment(linker, "/EXPORT:play=_play@24")
 #pragma comment(linker, "/EXPORT:pause=_pause@24")
 #pragma comment(linker, "/EXPORT:next=_next@24")
 #pragma comment(linker, "/EXPORT:prev=_prev@24")
 using namespace std;
 
-string title{"0"};
+string title{""};
+int status_{0};
 HWND hWNd{};
+
+void readData(string input, HWND hWnd) {
+
+    if (!input.empty()) {
+
+        if (input == "Advertisement" || title.find("-") == 0) {
+            status_ = 2;
+            hWNd = hWnd;
+        }
+        else if (input == "Spotify Premium" || input == "Spotify Free") {
+            status_ = 1;
+            hWNd = hWnd;
+        }
+        else {
+            hWNd = hWnd;
+            title = input;
+            status_ = 3;
+        }
+    }
+    else {
+        status_ = 0;
+    }
+}
 
 static BOOL CALLBACK enumWindowCallback(HWND hWnd, LPARAM lparam) {
     string wClass{};
@@ -52,37 +78,23 @@ static BOOL CALLBACK enumWindowCallback(HWND hWnd, LPARAM lparam) {
     wClass = buffer0;
 
     if (IsWindowVisible(hWnd) && length != 0 && wClass == "Chrome_WidgetWin_0") {
-        title = wTitle;
-        hWNd = hWnd;
+        readData(wTitle, hWnd);
     }
 
     return TRUE;
 }
 
-extern "C" int __stdcall announce(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
+
+
+extern "C" int __stdcall song(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
     EnumWindows(enumWindowCallback, NULL);
-    string output{ "0" };
-    if (title == "Advertisement" || title.find("-") == 0) {
-        output = "2";
+    if (status_ == 3) {
+        char* cstr = new char[title.size() + 1];
+        title.copy(cstr, title.size() + 1);
+        cstr[title.size()] = '\0';
+        strcpy_s(data, strlen(cstr) + 1, cstr);
     }
-    else if (!title.empty()) {
-
-        if (title == "Spotify Premium" || title == "Spotify Free") {
-            output = "1";
-        }
-        else {
-            output = title;
-        }
-    }
-    else {
-        output = "0";
-    }
-    
-    char* cstr = new char[output.size() + 1];
-    output.copy(cstr, output.size() + 1);
-    cstr[output.size()] = '\0';
-    strcpy_s(data, strlen(cstr) + 1, cstr);
     return 3;
 }
 extern "C" int __stdcall creator(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
@@ -92,10 +104,34 @@ extern "C" int __stdcall creator(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
     return 3;
 }
 
+extern "C" int __stdcall status(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
+{
+    EnumWindows(enumWindowCallback, NULL);
+    string input = std::to_string(status_);
+    char* cstr = new char[input.size() + 1];
+    input.copy(cstr, input.size() + 1);
+    cstr[input.size()] = '\0';
+    strcpy_s(data, strlen(cstr) + 1, cstr);
+    return 3;
+}
+
+// Here starts the commands for Spotify Media Player.
+
 extern "C" int __stdcall pause(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
     EnumWindows(enumWindowCallback, NULL);
-    if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PLAY_PAUSE * 0x10000);
+    if (hWNd && status_ == 3) {
+        SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PLAY_PAUSE * 0x10000);
+    }
+    return 0;
+}
+
+extern "C" int __stdcall play(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
+{
+    EnumWindows(enumWindowCallback, NULL);
+    if (hWNd && status_ == 1) {
+        SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PLAY_PAUSE * 0x10000);
+    }
     return 0;
 }
 
