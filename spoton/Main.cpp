@@ -34,12 +34,9 @@ https://creativecommons.org/licenses/by-nc/4.0/
 #define WIN32_LEAN_AND_MEAN
 #pragma comment(linker, "/EXPORT:song=_song@24")
 #pragma comment(linker, "/EXPORT:creator=_creator@24")
+#pragma comment(linker, "/EXPORT:version=_version@24")
 #pragma comment(linker, "/EXPORT:status=_status@24")
-#pragma comment(linker, "/EXPORT:play=_play@24")
-#pragma comment(linker, "/EXPORT:pause=_pause@24")
-#pragma comment(linker, "/EXPORT:next=_next@24")
-#pragma comment(linker, "/EXPORT:prev=_prev@24")
-#pragma comment(linker, "/EXPORT:rplay=_rplay@24")
+#pragma comment(linker, "/EXPORT:control=_control@24")
 using namespace std;
 
 string title{};
@@ -106,9 +103,87 @@ extern "C" int __stdcall song(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BO
 	return 3;
 }
 
+
+
+extern "C" int __stdcall control(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
+{
+	std::string cmd(data);
+	if (cmd == "pause") {
+		EnumWindows(enumWindowCallback, NULL);
+		if (hWNd && status_ == 3) {
+			SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PLAY_PAUSE * 0x10000);
+		}
+	}
+	else if (cmd == "play") {
+		EnumWindows(enumWindowCallback, NULL);
+		if (hWNd && status_ == 1) {
+			SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PLAY_PAUSE * 0x10000);
+		}
+	}
+	else if (cmd == "next") {
+		if (hWNd != lasthWNd || !hWNd) {
+			EnumWindows(enumWindowCallback, NULL);
+			lasthWNd = hWNd;
+		}
+		if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_NEXTTRACK * 0x10000);
+	}
+	else if (cmd == "rplay") {
+		if (hWNd != lasthWNd || !hWNd) {
+			EnumWindows(enumWindowCallback, NULL);
+			lasthWNd = hWNd;
+		}
+		if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PREVIOUSTRACK * 0x10000);
+	}
+	else if (cmd == "prev") {
+		if (hWNd != lasthWNd || !hWNd) {
+			EnumWindows(enumWindowCallback, NULL);
+			lasthWNd = hWNd;
+		}
+		if (hWNd) {
+			SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PREVIOUSTRACK * 0x10000);
+			SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PREVIOUSTRACK * 0x10000);
+		}
+	}
+	else if (cmd == "volup") {
+		if (hWNd != lasthWNd || !hWNd) {
+			EnumWindows(enumWindowCallback, NULL);
+			lasthWNd = hWNd;
+		}
+		if (hWNd) {
+			SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_VOLUME_UP * 0x10000);
+		}
+	}
+	else if (cmd == "voldown") {
+		if (hWNd != lasthWNd || !hWNd) {
+			EnumWindows(enumWindowCallback, NULL);
+			lasthWNd = hWNd;
+		}
+		if (hWNd) {
+			SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_VOLUME_DOWN * 0x10000);
+		}
+	}
+	else if (cmd == "volmute") {
+		if (hWNd != lasthWNd || !hWNd) {
+			EnumWindows(enumWindowCallback, NULL);
+			lasthWNd = hWNd;
+		}
+		if (hWNd) {
+			SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_VOLUME_MUTE * 0x10000);
+		}
+	}
+	return 0;
+}
+
 extern "C" int __stdcall creator(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
 	char cby[] = "Created By: Turbosmurfen";
+	strcpy_s(data, strlen(cby) + 1, cby);
+	return 3;
+}
+
+extern "C" int __stdcall version(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
+{
+	char cby[] = "1.1.0";
 	strcpy_s(data, strlen(cby) + 1, cby);
 	return 3;
 }
@@ -131,61 +206,4 @@ extern "C" int __stdcall status(HWND mWnd, HWND aWnd, CHAR * data, char* parms, 
 	cstr[input.size()] = '\0';
 	strcpy_s(data, strlen(cstr) + 1, cstr);
 	return 3;
-}
-
-// Here starts the commands for Spotify Media Player.
-
-
-//Execute pause track for Spotify Media Player
-extern "C" int __stdcall pause(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
-{
-	EnumWindows(enumWindowCallback, NULL);
-	if (hWNd && status_ == 3) {
-		SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PLAY_PAUSE * 0x10000);
-	}
-	return 0;
-}
-//Execute play track for Spotify Media Player
-extern "C" int __stdcall play(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
-{
-	EnumWindows(enumWindowCallback, NULL);
-	if (hWNd && status_ == 1) {
-		SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PLAY_PAUSE * 0x10000);
-	}
-	return 0;
-}
-//Execute next track for Spotify Media Player
-extern "C" int __stdcall next(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
-{
-	if (hWNd != lasthWNd || !hWNd) {
-		EnumWindows(enumWindowCallback, NULL);
-		lasthWNd = hWNd;
-	}
-	if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_NEXTTRACK * 0x10000);
-	return 0;
-}
-
-//Execute replay track for Spotify Media Player
-extern "C" int __stdcall rplay(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
-{
-	if (hWNd != lasthWNd || !hWNd) {
-		EnumWindows(enumWindowCallback, NULL);
-		lasthWNd = hWNd;
-	}
-	if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PREVIOUSTRACK * 0x10000);
-	return 0;
-}
-
-//Execute previous track for Spotify Media Player
-extern "C" int __stdcall prev(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
-{
-	if (hWNd != lasthWNd || !hWNd) {
-		EnumWindows(enumWindowCallback, NULL);
-		lasthWNd = hWNd;
-	}
-	if (hWNd) {
-		SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PREVIOUSTRACK * 0x10000);
-		SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PREVIOUSTRACK * 0x10000);
-	}
-	return 0;
 }

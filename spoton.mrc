@@ -1,21 +1,23 @@
 ;Welcome to SpotOn mIRC Addon. Since this is only in beta.
 ;You could not do so much. I'm not a good MSL coder, so this is the result in beta.
 ;
-; This addon works best with Spoton 1.0.8 or later.
+; This addon works best with Spoton 1.1.0 or later.
 
 menu menubar,channel {
   -
-  SpotOn $+([,$replace($dll($spfind,status,0),0,Not Running,1,Paused,2,Advertisement,3,Playing),])
+  SpotOn $+([,$dll(spoton.dll,version,),])
   .Menu
   ..Open Menu:spssh | dialog -m sps sps
-  ..Says:spotwin
   .-
   .Control
-  ..Play:/dll spoton.dll play
-  ..Replay:/dll spoton.dll rplay
-  ..Pause:/dll spoton.dll pause
-  ..Next:/dll spoton.dll next
-  ..Previous:/dll spoton.dll prev
+  ..Play:/dll spoton.dll control play
+  ..Replay:/dll spoton.dll control rplay
+  ..Pause:/dll spoton.dll control pause
+  ..Next:/dll spoton.dll control next
+  ..Previous:/dll spoton.dll control prev
+  ..Volume Up:/dll spoton.dll control volup
+  ..Volume Down:/dll spoton.dll control voldown
+  ..Mute Volume:/dll spoton.dll control volmute
   .$iif($menu == channel,-)
   .$iif($menu == channel,Say):snp
 }
@@ -132,9 +134,9 @@ menu @saylist {
 
 ;Replace x with SpotOn features.
 alias -l spfrm {
-  var %f1 = $replace($1-,[song],$dll($spfind,song,0))
-  ;var %f2 = $replace(%f1,[artist],$dll($spfind,artist,0))
-  ;var %f3 = $replace(%f2,[title],$dll($spfind,title,0))
+  var %f1 = $replace($1-,[song],$dll($spfind,song,))
+  ;var %f2 = $replace(%f1,[artist],$dll($spfind,artist,))
+  ;var %f3 = $replace(%f2,[title],$dll($spfind,title,))
   return $spc(%f1)
 }
 
