@@ -34,6 +34,8 @@ jobs:
 
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v1
+        with:
+           vs-version: '[17.1)'
 
       - name: Build debuggable x86 plugin DLL
         working-directory: ${{ github.workspace }}
