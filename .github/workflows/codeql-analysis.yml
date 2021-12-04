@@ -35,11 +35,11 @@ jobs:
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v1
         with:
-           vs-version: '[17.1)'
+          vs-version: '[17.1)'
 
       - name: Build debuggable x86 plugin DLL
         working-directory: ${{ github.workspace }}
-        run: msbuild /m /p:Configuration="Debug" /p:Platform="x86" /p:PlatformToolset="v143" ${{ env.SOLUTION_FILE_PATH }}
+        run: msbuild /m /p:Configuration="Debug" /p:Platform="x86" ${{ env.SOLUTION_FILE_PATH }}
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
