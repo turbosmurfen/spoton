@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-/* Announce and Creator
+/* Everything Else
 
 Copyright 2021 Turbosmurfen
 
@@ -50,7 +50,7 @@ void readData(string input, HWND hWnd) {
 
 	if (!input.empty()) {
 
-		if (input == "Advertisement" || title.find("-") == 0) {
+		if (input == "Advertisement" || title.find("-") == string::npos) {
 			status_ = 2;
 			hWNd = hWnd;
 		}
@@ -183,7 +183,7 @@ extern "C" int __stdcall creator(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
 
 extern "C" int __stdcall version(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
-	char cby[] = "1.1.0";
+	char cby[] = "1.1.1";
 	strcpy_s(data, strlen(cby) + 1, cby);
 	return 3;
 }

@@ -5,7 +5,7 @@
 
 menu menubar,channel {
   -
-  SpotOn $+([,$dll(spoton.dll,version,),])
+  SpotOn
   .Menu
   ..Open Menu:spssh | dialog -m sps sps
   .-
