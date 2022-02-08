@@ -50,7 +50,7 @@ void readData(string input, HWND hWnd) {
 
 	if (!input.empty()) {
 
-		if (input == "Advertisement" || title.find("-") == string::npos) {
+		if (input == "Advertisement" || input.find("-") == string::npos) {
 			status_ = 2;
 			hWNd = hWnd;
 		}
