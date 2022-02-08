@@ -25,6 +25,6 @@ Spotify Version: 1.1.51 - 1.1.77
 ### How to start using SpotOn
 [How to install & use SpotOn](https://github.com/turbosmurfen/spoton/wiki/Installation)
 
-### Example image for mIRC 7.64
+### Example image for mIRC 7.67
 ![Image](https://github.com/turbosmurfen/spoton/blob/main/img/spoton_example.png)
 
