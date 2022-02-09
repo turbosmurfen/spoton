@@ -38,30 +38,31 @@ https://creativecommons.org/licenses/by-nc/4.0/
 #pragma comment(linker, "/EXPORT:status=_status@24")
 #pragma comment(linker, "/EXPORT:control=_control@24")
 using namespace std;
-
 string title{};
 string lastTitle{};
 int status_{ 0 };
 int statusLast{ 0 };
 HWND hWNd{};
 HWND lasthWNd{};
-
-void readData(string input, HWND hWnd) {
+void readData(wstring input, HWND hWnd) {
 
 	if (!input.empty()) {
-
-		if (input == "Advertisement" || input.find("-") == string::npos) {
-			status_ = 2;
-			hWNd = hWnd;
-		}
-		else if (input == "Spotify Premium" || input == "Spotify Free") {
+		const wchar_t* wchar_0 = input.c_str();
+		if (wcscmp(wchar_0, L"Spotify Premium") == 0 || wcscmp(wchar_0, L"Spotify Free") == 0) {
 			status_ = 1;
 			hWNd = hWnd;
 		}
-		else {
+		else if (wcscmp(wchar_0, L"Advertisement") == 0) {
+			status_ = 2;
 			hWNd = hWnd;
-			title = input;
+		}
+		else {
+			int count = WideCharToMultiByte(CP_UTF8, 0, input.c_str(), input.length(), NULL, 0, NULL, NULL);
+			string str(count, 0);
+			WideCharToMultiByte(CP_UTF8, 0, input.c_str(), -1, &str[0], count, NULL, NULL);
+			title = str;
 			status_ = 3;
+			hWNd = hWnd;
 		}
 	}
 	else {
@@ -72,15 +73,14 @@ void readData(string input, HWND hWnd) {
 static BOOL CALLBACK enumWindowCallback(HWND hWnd, LPARAM lparam) {
 	string wClass{};
 	int length = GetWindowTextLength(hWnd);
-	char* buffer = new char[length + 1];
-	GetWindowTextA(hWnd, buffer, length + 1);
-	string wTitle(buffer);
+	wchar_t wText[1024];
+	GetWindowTextW(hWnd, wText, length + 1);
 	char* buffer0 = new char[256];
 	GetClassNameA(hWnd, buffer0, 256);
 	wClass = buffer0;
 
 	if (IsWindowVisible(hWnd) && length != 0 && wClass == "Chrome_WidgetWin_0") {
-		readData(wTitle, hWnd);
+		readData(wText, hWnd);
 
 	}
 
@@ -183,7 +183,7 @@ extern "C" int __stdcall creator(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
 
 extern "C" int __stdcall version(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
-	char cby[] = "1.1.1";
+	char cby[] = "1.1.3";
 	strcpy_s(data, strlen(cby) + 1, cby);
 	return 3;
 }
