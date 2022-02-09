@@ -18,6 +18,7 @@ Spotify Version: 1.1.51 - 1.1.77
 - [x] Check if Spotify is not running.  
 - [x] Check if Spotify is paused.  
 - [x] Play/Pause, Previous, Next. Commands.
+- [x] UTF8 Support
 - [ ] Check if Spotify is playing Advertisement (100% working version).  
 - [ ] Read URI.   
 - [ ] Read total time of the song.  
