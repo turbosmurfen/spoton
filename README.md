@@ -2,7 +2,7 @@
   <img width="120" height="120" src="https://github.com/turbosmurfen/spoton/blob/main/img/spoton_logo.png">
 </p>
 
-[![Github All Releases](https://img.shields.io/github/downloads/turbosmurfen/spoton/total.svg)]()
+[![Github All Releases](https://img.shields.io/github/downloads/turbosmurfen/spoton/total.svg)]() [![CodeQL](https://github.com/turbosmurfen/spoton/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/turbosmurfen/spoton/actions/workflows/codeql-analysis.yml)
 
 # Spoton - Spotify now-playing for mIRC  
 A program written in C++ that make Spotify now-playing for mIRC. 
