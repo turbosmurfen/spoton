@@ -18,8 +18,8 @@ A program written in C++ that make Spotify now-playing for mIRC.
 - [ ] Read URI.   
 - [ ] Read total time of the song.  
   
-### How to start using SpotOn
-[How to install & use SpotOn](https://github.com/turbosmurfen/spoton/wiki/Installation)
+### Looking for how to use this file?
+[Go to the Wiki!](https://github.com/turbosmurfen/spoton/wiki)
 
 ### Example image for mIRC 7.67
 ![Image](https://github.com/turbosmurfen/spoton/blob/main/img/spoton_example.png)
