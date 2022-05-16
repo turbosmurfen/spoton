@@ -13,7 +13,7 @@
 - [x] Check if Spotify is paused.  
 - [x] Play/Pause, Previous, Next. Commands.
 - [x] UTF8 Support
-- [ ] Check if Spotify is playing Advertisement (100% working version).  
+- [x] Line Feed removal (For Security reasons)  
 - [ ] Read URI.   
 - [ ] Read total time of the song.  
   
