@@ -17,20 +17,20 @@ limitations under the License.
 
 /* Everything Else
 
-Copyright 2021 Turbosmurfen
+Copyright 2022 Turbosmurfen
 
 Licensed under the Creative Commons License, version 4.0
-https://creativecommons.org/licenses/by-nc/4.0/
+https://creativecommons.org/licenses/by/4.0/
 
 */
 
 
-#include <cstdio>
+//#include <cstdio>
 #include <windows.h>
 #include <string>
 #include <vector>
 #include <iostream>
-#include <chrono>
+#include <algorithm>
 #define WIN32_LEAN_AND_MEAN
 #pragma comment(linker, "/EXPORT:song=_song@24")
 #pragma comment(linker, "/EXPORT:creator=_creator@24")
@@ -44,6 +44,10 @@ int status_{ 0 };
 int statusLast{ 0 };
 HWND hWNd{};
 HWND lasthWNd{};
+
+char vers[] = "1.1.4";
+char by[] = "Created by: Turbosmurfen";
+
 void readData(wstring input, HWND hWnd) {
 
 	if (!input.empty()) {
@@ -60,13 +64,15 @@ void readData(wstring input, HWND hWnd) {
 			int count = WideCharToMultiByte(CP_UTF8, 0, input.c_str(), input.length(), NULL, 0, NULL, NULL);
 			string str(count, 0);
 			WideCharToMultiByte(CP_UTF8, 0, input.c_str(), -1, &str[0], count, NULL, NULL);
+			std::replace(str.begin(), str.end(), '\n', '\0');
+			std::replace(str.begin(), str.end(), '\r', '\0');
 			title = str;
 			status_ = 3;
 			hWNd = hWnd;
 		}
 	}
 	else {
-		status_ = 0;
+		status_ = 0; //This is never going to execute (only if Spotify detection get updated)
 	}
 }
 
@@ -78,10 +84,10 @@ static BOOL CALLBACK enumWindowCallback(HWND hWnd, LPARAM lparam) {
 	char* buffer0 = new char[256];
 	GetClassNameA(hWnd, buffer0, 256);
 	wClass = buffer0;
+	
 
 	if (IsWindowVisible(hWnd) && length != 0 && wClass == "Chrome_WidgetWin_0") {
 		readData(wText, hWnd);
-
 	}
 
 	return TRUE;
@@ -176,23 +182,20 @@ extern "C" int __stdcall control(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
 
 extern "C" int __stdcall creator(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
-	char cby[] = "Created By: Turbosmurfen";
-	strcpy_s(data, strlen(cby) + 1, cby);
+	strcpy_s(data, strlen(by) + 1, by);
 	return 3;
 }
 
 extern "C" int __stdcall version(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
-	char cby[] = "1.1.3";
-	strcpy_s(data, strlen(cby) + 1, cby);
+	strcpy_s(data, strlen(vers) + 1, vers);
 	return 3;
 }
 
 /* Check for status
-* 0 - Spotify is not running
 * 1 - Spotify is paused
 * 2 - Spotfy is playing Advertisement
-* 3 - Spotify is playing
+* 3 - Spotify is playing (detect this for not running)
 */
 extern "C" int __stdcall status(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
