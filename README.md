@@ -4,8 +4,7 @@
 
 [![Github All Releases](https://img.shields.io/github/downloads/turbosmurfen/spoton/total.svg)]() [![CodeQL](https://github.com/turbosmurfen/spoton/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/turbosmurfen/spoton/actions/workflows/codeql-analysis.yml)
 
-# Spoton - Spotify now-playing for mIRC  
-A program written in C++ that make Spotify now-playing for mIRC. 
+# Spoton - Spotify Now Playing for mIRC  
   
 ### TODO
   
