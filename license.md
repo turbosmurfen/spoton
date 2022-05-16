@@ -1,1 +1,1 @@
-This software is licensed under CC BY-NC 4.0 https://creativecommons.org/licenses/by-nc/4.0/
+This software is licensed under CC 4.0 https://creativecommons.org/licenses/by/4.0/
