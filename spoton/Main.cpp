@@ -31,6 +31,8 @@ https://creativecommons.org/licenses/by/4.0/
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <tlhelp32.h>
+#include <tchar.h>
 #define WIN32_LEAN_AND_MEAN
 #pragma comment(linker, "/EXPORT:song=_song@24")
 #pragma comment(linker, "/EXPORT:creator=_creator@24")
@@ -39,11 +41,10 @@ https://creativecommons.org/licenses/by/4.0/
 #pragma comment(linker, "/EXPORT:control=_control@24")
 using namespace std;
 string title{};
-string lastTitle{};
-int status_{ 0 };
-int statusLast{ 0 };
+string lasttitle{};
+vector<DWORD> pids;
+int status_{0};
 HWND hWNd{};
-HWND lasthWNd{};
 
 char vers[] = "1.1.4";
 char by[] = "Created by: Turbosmurfen";
@@ -64,49 +65,77 @@ void readData(wstring input, HWND hWnd) {
 			int count = WideCharToMultiByte(CP_UTF8, 0, input.c_str(), input.length(), NULL, 0, NULL, NULL);
 			string str(count, 0);
 			WideCharToMultiByte(CP_UTF8, 0, input.c_str(), -1, &str[0], count, NULL, NULL);
-			std::replace(str.begin(), str.end(), '\n', '\0');
-			std::replace(str.begin(), str.end(), '\r', '\0');
+			std::replace(str.begin(), str.end(), '\n', ' ');
+			std::replace(str.begin(), str.end(), '\r', ' ');
 			title = str;
 			status_ = 3;
 			hWNd = hWnd;
 		}
 	}
 	else {
-		status_ = 0; //This is never going to execute (only if Spotify detection get updated)
+		status_ = 0;
 	}
 }
+
 
 static BOOL CALLBACK enumWindowCallback(HWND hWnd, LPARAM lparam) {
 	string wClass{};
 	int length = GetWindowTextLength(hWnd);
+	DWORD proc;
+	GetWindowThreadProcessId(hWnd, &proc);
 	wchar_t wText[1024];
 	GetWindowTextW(hWnd, wText, length + 1);
 	char* buffer0 = new char[256];
 	GetClassNameA(hWnd, buffer0, 256);
 	wClass = buffer0;
-	
 
-	if (IsWindowVisible(hWnd) && length != 0 && wClass == "Chrome_WidgetWin_0") {
+	if (IsWindowVisible(hWnd) && length != 0 && wClass == "Chrome_WidgetWin_0" && find(pids.begin(), pids.end(), proc) != pids.end()) {
 		readData(wText, hWnd);
-	}
 
+	}
 	return TRUE;
 }
 
+static void Run() {
+	PROCESSENTRY32 entry;
+	entry.dwSize = sizeof(PROCESSENTRY32);
+	HANDLE handle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+
+	if (Process32First(handle, &entry))
+	{
+		while (Process32Next(handle, &entry))
+		{
+			if (_tcsicmp(entry.szExeFile, _T("Spotify.exe")) == 0)
+			{
+				pids.push_back(entry.th32ProcessID);
+			}
+		}
+	}
+	CloseHandle(handle);
+	if (pids.empty()) {
+		status_ = 0;
+	}
+	else {
+		EnumWindows(enumWindowCallback, NULL);
+		pids.clear();
+	}
+}
 
 //Writes out title of the song
 extern "C" int __stdcall song(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
-	if (title != lastTitle || title.empty()) {
-		EnumWindows(enumWindowCallback, NULL);
-		lastTitle = title;
+	Run();
+	if (title.empty()) {
+		return 0;
 	}
-	char* cstr = new char[title.size() + 1];
-	title.copy(cstr, title.size() + 1);
-	cstr[title.size()] = '\0';
-	strcpy_s(data, strlen(cstr) + 1, cstr);
+	else {
+		char* cstr = new char[title.size() + 1];
+		title.copy(cstr, title.size() + 1);
+		cstr[title.size()] = '\0';
+		strcpy_s(data, strlen(cstr) + 1, cstr);
 
-	return 3;
+		return 3;
+	}
 }
 
 
@@ -115,64 +144,46 @@ extern "C" int __stdcall control(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
 {
 	std::string cmd(data);
 	if (cmd == "pause") {
-		EnumWindows(enumWindowCallback, NULL);
+		Run();
 		if (hWNd && status_ == 3) {
 			SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PLAY_PAUSE * 0x10000);
 		}
 	}
 	else if (cmd == "play") {
-		EnumWindows(enumWindowCallback, NULL);
+		Run();
 		if (hWNd && status_ == 1) {
 			SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PLAY_PAUSE * 0x10000);
 		}
 	}
 	else if (cmd == "next") {
-		if (hWNd != lasthWNd || !hWNd) {
-			EnumWindows(enumWindowCallback, NULL);
-			lasthWNd = hWNd;
-		}
+		Run();
 		if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_NEXTTRACK * 0x10000);
 	}
 	else if (cmd == "rplay") {
-		if (hWNd != lasthWNd || !hWNd) {
-			EnumWindows(enumWindowCallback, NULL);
-			lasthWNd = hWNd;
-		}
+		Run();
 		if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PREVIOUSTRACK * 0x10000);
 	}
 	else if (cmd == "prev") {
-		if (hWNd != lasthWNd || !hWNd) {
-			EnumWindows(enumWindowCallback, NULL);
-			lasthWNd = hWNd;
-		}
+		Run();
 		if (hWNd) {
 			SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PREVIOUSTRACK * 0x10000);
 			SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PREVIOUSTRACK * 0x10000);
 		}
 	}
 	else if (cmd == "volup") {
-		if (hWNd != lasthWNd || !hWNd) {
-			EnumWindows(enumWindowCallback, NULL);
-			lasthWNd = hWNd;
-		}
+		Run();
 		if (hWNd) {
 			SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_VOLUME_UP * 0x10000);
 		}
 	}
 	else if (cmd == "voldown") {
-		if (hWNd != lasthWNd || !hWNd) {
-			EnumWindows(enumWindowCallback, NULL);
-			lasthWNd = hWNd;
-		}
+		Run();
 		if (hWNd) {
 			SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_VOLUME_DOWN * 0x10000);
 		}
 	}
 	else if (cmd == "volmute") {
-		if (hWNd != lasthWNd || !hWNd) {
-			EnumWindows(enumWindowCallback, NULL);
-			lasthWNd = hWNd;
-		}
+		Run();
 		if (hWNd) {
 			SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_VOLUME_MUTE * 0x10000);
 		}
@@ -199,10 +210,7 @@ extern "C" int __stdcall version(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
 */
 extern "C" int __stdcall status(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
-	if (status_ != statusLast || !status_) {
-		EnumWindows(enumWindowCallback, NULL);
-		statusLast = status_;
-	}
+	Run();
 	string input = std::to_string(status_);
 	char* cstr = new char[input.size() + 1];
 	input.copy(cstr, input.size() + 1);
