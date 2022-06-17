@@ -13,6 +13,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+https://github.com/marcuslonnberg/G930-Spotify-Controller
 */
 
 /* Everything Else
@@ -41,12 +42,11 @@ https://creativecommons.org/licenses/by/4.0/
 #pragma comment(linker, "/EXPORT:control=_control@24")
 using namespace std;
 string title{};
-string lasttitle{};
 vector<DWORD> pids;
 int status_{0};
 HWND hWNd{};
 
-char vers[] = "1.1.4";
+char vers[] = "1.1.5";
 char by[] = "Created by: Turbosmurfen";
 
 void readData(wstring input, HWND hWnd) {
@@ -79,7 +79,6 @@ void readData(wstring input, HWND hWnd) {
 
 
 static BOOL CALLBACK enumWindowCallback(HWND hWnd, LPARAM lparam) {
-	string wClass{};
 	int length = GetWindowTextLength(hWnd);
 	DWORD proc;
 	GetWindowThreadProcessId(hWnd, &proc);
@@ -87,13 +86,17 @@ static BOOL CALLBACK enumWindowCallback(HWND hWnd, LPARAM lparam) {
 	GetWindowTextW(hWnd, wText, length + 1);
 	char* buffer0 = new char[256];
 	GetClassNameA(hWnd, buffer0, 256);
-	wClass = buffer0;
+	string wClass = buffer0;
 
 	if (IsWindowVisible(hWnd) && length != 0 && wClass == "Chrome_WidgetWin_0" && find(pids.begin(), pids.end(), proc) != pids.end()) {
 		readData(wText, hWnd);
-
+		delete[] buffer0;
+		return FALSE;
 	}
-	return TRUE;
+	else {
+		delete[] buffer0;
+		return TRUE;
+	}
 }
 
 static void Run() {
@@ -129,17 +132,13 @@ extern "C" int __stdcall song(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BO
 		return 0;
 	}
 	else {
-		char* cstr = new char[title.size() + 1];
-		title.copy(cstr, title.size() + 1);
-		cstr[title.size()] = '\0';
-		strcpy_s(data, strlen(cstr) + 1, cstr);
-
+		strcpy_s(data, title.size() + 1, title.c_str());
 		return 3;
 	}
 }
 
 
-
+//Media Controls
 extern "C" int __stdcall control(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
 	std::string cmd(data);
@@ -191,12 +190,14 @@ extern "C" int __stdcall control(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
 	return 0;
 }
 
+//Created By
 extern "C" int __stdcall creator(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
 	strcpy_s(data, strlen(by) + 1, by);
 	return 3;
 }
 
+//Current Version
 extern "C" int __stdcall version(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
 	strcpy_s(data, strlen(vers) + 1, vers);
@@ -204,17 +205,14 @@ extern "C" int __stdcall version(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
 }
 
 /* Check for status
+* 0 - Spotify is not running
 * 1 - Spotify is paused
 * 2 - Spotfy is playing Advertisement
-* 3 - Spotify is playing (detect this for not running)
+* 3 - Spotify is playing a song
 */
 extern "C" int __stdcall status(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
 	Run();
-	string input = std::to_string(status_);
-	char* cstr = new char[input.size() + 1];
-	input.copy(cstr, input.size() + 1);
-	cstr[input.size()] = '\0';
-	strcpy_s(data, strlen(cstr) + 1, cstr);
+	strcpy_s(data, std::to_string(status_).size() + 1, std::to_string(status_).c_str());
 	return 3;
 }
