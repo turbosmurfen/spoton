@@ -5,6 +5,8 @@
 [![Github All Releases](https://img.shields.io/github/downloads/turbosmurfen/spoton/total.svg)]() [![CodeQL](https://github.com/turbosmurfen/spoton/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/turbosmurfen/spoton/actions/workflows/codeql-analysis.yml)
 
 # Spoton - Spotify Now Playing for mIRC  
+If you are using Spoton 1.1.4 or lower. Please update to 1.1.5.   
+Reason: Spoton in earlier versions keep adding more and more data to memory.  
   
 ### TODO
   
