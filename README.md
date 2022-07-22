@@ -9,10 +9,6 @@
 ### Notice to everyone
 If you are using Spoton 1.1.4 or lower. Please update to 1.1.5.   
 Reason: Spoton in earlier versions keep adding more and more data to memory.  
-  
-### Example image for mIRC 7.67  
-![Image](https://github.com/turbosmurfen/spoton/blob/main/img/spoton_example.png)
-  
 
 # Get Started
 
@@ -25,6 +21,10 @@ Reason: Spoton in earlier versions keep adding more and more data to memory.
     * [Usage](#usage)
     * [MSL Script](#script)
     * [Errors](#errors)
+
+### Example image for mIRC 7.67  
+![Image](https://github.com/turbosmurfen/spoton/blob/main/img/spoton_example.png)
+  
 
 # <a id="faq">Frequently Asked Questions</a>
 **Q**: Does Spoton use Internet connections?  
