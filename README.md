@@ -13,14 +13,14 @@ Reason: Spoton in earlier versions keep adding more and more data to memory.
 # Get Started
 
 * [FAQ](#faq)
-* [Credits & licenses](#creds)
 * [Requirements](#requeirments)
 * Installation Steps
     * [Downloading](#download)
     * [Installation](#install)
     * [Usage](#usage)
-    * [MSL Script](#script)
+    * [mIRC Script Basic](#script)
     * [Errors](#errors)
+* [Credits & licenses](#creds)
 
 ### Example image for mIRC 7.67  
 ![Image](https://github.com/turbosmurfen/spoton/blob/main/img/spoton_example.png)
@@ -40,38 +40,36 @@ and also possible to control Spotify.
 
 
 # <a id="reqeirments">Requeirments</a>
+
 **Supported Operating System**: Windows  
+
+**Visual C++ Redistributable 2015-2022 (x86)**  
   
-**Supported Windows Version**: Vista, 7, 8.1, 10, and 11.   
-**Tested Windows Version**: 7, 10, 11  
+**Supported Windows Edition**: Vista, 7, 8.1, 10, and 11.   
+**Tested Windows Edition**: 7, 10, 11  
   
 **Tested mIRC version**: 7.61 - 7.69  
-**Tested Spotify Version**: 1.1.51 - 1.1.85  
+**Tested Spotify Version**: 1.1.51 - 1.1.90
 
 **Harddrive Space**: 17,4 KB.  
 
 # <a id="download">Downloads</a>
-Download `spoton_vx.x.x.zip` zip archive of Spoton [At Releases](https://github.com/turbosmurfen/spoton/releases/latest).   
+1. Download `spoton_vx.x.x.zip` zip archive of Spoton [At Releases](https://github.com/turbosmurfen/spoton/releases/latest).  
 
+2. If you don't have the package `Visual C++ Redistributable 2015-2022 (x86)` installed.   
+You need to Download this, You can click on [this link](https://aka.ms/vs/17/release/vc_redist.x86.exe).  
 
 # <a id="install">Installation</a>
 
-If you don't have the package below this text installed on your computer:   
-`Visual C++ Redistributable 2015-2022` in x86/32bit  
-You need to Download this and install the package.  
-You can click on [this link](https://aka.ms/vs/17/release/vc_redist.x86.exe) to download and install the package.
+When you have downloaded everything that is needed for Spoton. Follow these steps.  
 
-When you have downloaded everything that is needed for spoton.  
-Right Click on the archive which is named: spoton_vx.x.x.zip. And extract the archive.  
-When finished you need to put the spoton.dll inside the mIRC folder (look at the steps).
+1. If you don't have `Visual C++ Redistributable 2015-2022 (x86)` Installed. 
+Click on `vc_redist.x86.exe` and install the Redistributable, to be able to use Spoton.
+ 
+2. Right Click on the archive which is named: spoton_vx.x.x.zip. And extract the archive.  
+When finished you need to put the spoton.dll inside the mIRC folder (look at the steps below).
 
-### Steps for Windows vista, 7:  
-
-1. Press the **Windows key** on your keyboard and then later press **R**.  
-2. Now are you going to see an input form. Write `%APPDATA%\mIRC` and press enter on the keyboard.   
-3. Copy `spoton.dll` and paste inside this folder. **OR** save it where you have your other DLL files. 
-
-### Steps for Windows 8.1, 10, 11:  
+### Steps for Windows Vista, 7 8.1, 10, 11:  
 
 1. First open up mIRC. Now write this text and paste inside mIRC:   `//noop $sfile($mircdir)` and press enter.
 2. You are going to get a popup where to open a file.  
@@ -99,18 +97,18 @@ Use: /dll pathtospoton\spoton.dll control **command**
 
 | Command       |Description   |
 | --- | --- | 
-| play | Plays current song in Spotify (if Paused). |
-| rplay | Play the song from beginning. |
-| pause | Pauses Spotify (if Playing). |
+| play | Plays current song in Spotify (If paused). |
+| rplay | Play the song from the beginning. |
+| pause | Pauses Spotify (If playing). |
 | next | Play next Spotify song. |
 | prev | Play previous Spotify song. |
 | volup | Increase the volume in Spotify. |
 | voldown | Decrease the volume in Spotify. |
-| volmute | Mute or Unmute Spotify. |
+| volmute | Mute or Unmute Spotify volume. |
 
-# <a id="script">MSL Script</a>
+# <a id="script">mIRC Script Basic</a>
 A script to make a Now Playing with Spoton.  
-Please look so spoton alias snp is not triggered by other scripts.  
+Please look so Spoton alias **snp** is not triggered by other scripts.  
   
 To add this script to mIRC. Click on **Scripts Editor** or **ALT** + **R**, Select Remote. Click on File > New.  
 Copy the code below and paste inside the new Script file and save. Now you can use /snp in any channel or private messages.
@@ -132,7 +130,7 @@ alias snp {
 **This can show up for 2 reasons**:  
 
 1. You have put the DLL-File somewhere else.
-2. You need to install [Visual C++ Redistributable 2015-2022 x86/32bit](https://aka.ms/vs/17/release/vc_redist.x86.exe)  
+2. You need to install [Visual C++ Redistributable 2015-2022 (x86)](https://aka.ms/vs/17/release/vc_redist.x86.exe)  
 
 
 **If you get this error**: `/echo: insufficient parameters`  
