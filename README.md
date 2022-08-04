@@ -67,7 +67,9 @@ When you have downloaded everything that is needed for Spoton. Follow these step
 Click on `vc_redist.x86.exe` and install the Redistributable, to be able to use Spoton.
  
 2. Right Click on the archive which is named: spoton_vx.x.x.zip. And extract the archive.  
-When finished you need to put the spoton.dll inside the mIRC folder (look at the steps below).
+
+3. Open up powershell and **cd** to **Downloads\spoton_vx.x.x** folder. Run this command `Get-FileHash spoton.dll`. Then look if the sha256 checksum is correct from [Releases](https://github.com/turbosmurfen/spoton/releases/latest). If it's correct you should be fine.  
+4. When finished you need to put the spoton.dll inside the mIRC folder (look at the steps below).  
 
 ### Steps for Windows Vista, 7 8.1, 10, 11:  
 
