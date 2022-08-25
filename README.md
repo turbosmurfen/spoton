@@ -7,8 +7,8 @@
 # Spoton - Spotify Now Playing for mIRC  
 
 ### Notice to everyone
-If you are using Spoton 1.1.4 or lower. Please update to 1.1.5.   
-Reason: Spoton in earlier versions keep adding more and more data to memory.  
+If you are using Spoton 1.1.4 or earlier versions. Please update to version 1.1.5.   
+Reason: Spoton in earlier versions keep adding more data to the memory each executing. 
 
 # Get Started
 
@@ -27,15 +27,19 @@ Reason: Spoton in earlier versions keep adding more and more data to memory.
   
 
 # <a id="faq">Frequently Asked Questions</a>
-**Q**: Does Spoton use Internet connections?  
-**A**: No. Spoton is never using Internet connections.  
+**Q**: I can't find vx.x.x on download section, what do I do wrong?  
+**A**: **X** stands for a number. I don't write down every new version.  
+So go by number.  
+
+**Q**: Does Spoton use Internet connection?  
+**A**: No. Spoton is never using Internet connection.  
 
 **Q**: Does Spoton require Spotify API-KEY?  
 **A**: No. Spoton does not use Spotify API-KEYs. It works offline.  
 
-**Q**: If Spoton doesn't use connections how does it work?  
-**A**: It's reading Windows API calls to detect artist - title,  
-and also possible to control Spotify.
+**Q**: If Spoton doesn't use connection how does it work?  
+**A**: It's reading Windows API calls from Spotify to detect artist - title.    
+The tool is also using media controls that Spotify support.  
 
 
 
@@ -49,32 +53,35 @@ and also possible to control Spotify.
 **Tested Windows Edition**: 7, 10, 11  
   
 **Tested mIRC version**: 7.61 - 7.69  
-**Tested Spotify Version**: 1.1.51 - 1.1.90
+**Tested Spotify Version**: 1.1.91
 
 **Harddrive Space**: 17,4 KB.  
 
 # <a id="download">Downloads</a>
-1. Download `spoton_vx.x.x.zip` zip archive of Spoton [At Releases](https://github.com/turbosmurfen/spoton/releases/latest).  
+1. Download `spoton_vx.x.x.zip` zip archive of Spoton in Assets in the [Releases](https://github.com/turbosmurfen/spoton/releases/latest) section.  
 
 2. If you don't have the package `Visual C++ Redistributable 2015-2022 (x86)` installed.   
-You need to Download this, You can click on [this link](https://aka.ms/vs/17/release/vc_redist.x86.exe).  
+You need to Download this. You can click on the Microsoft site, here: [https://aka.ms/vs/17/release/vc_redist.x86.exe](https://aka.ms/vs/17/release/vc_redist.x86.exe).  
 
 # <a id="install">Installation</a>
 
 When you have downloaded everything that is needed for Spoton. Follow these steps.  
+Step **3** is only needed if you want to verifcation the file hash.    
 
 1. If you don't have `Visual C++ Redistributable 2015-2022 (x86)` Installed. 
 Click on `vc_redist.x86.exe` and install the Redistributable, to be able to use Spoton.
  
 2. Right Click on the archive which is named: spoton_vx.x.x.zip. And extract the archive.  
 
-3. Open up powershell and **cd** to **Downloads\spoton_vx.x.x** folder. Run this command `Get-FileHash spoton.dll`. Then look if the sha256 checksum is correct from [Releases](https://github.com/turbosmurfen/spoton/releases/latest). If it's correct you should be fine.  
+3. Open up powershell and **cd** to **Downloads\spoton_vx.x.x** folder. Run this command `Get-FileHash spoton.dll`. Then look if the sha256 checksum is correct from [Releases](https://github.com/turbosmurfen/spoton/releases/latest). If it's correct you should be fine. 
+
 4. When finished you need to put the spoton.dll inside the mIRC folder (look at the steps below).  
 
 ### Steps for Windows Vista, 7 8.1, 10, 11:  
 
-1. First open up mIRC. Now write this text and paste inside mIRC:   `//noop $sfile($mircdir)` and press enter.
-2. You are going to get a popup where to open a file.  
+1. First open up mIRC. Now write this text and paste inside mIRC:   `//noop $sfile($mircdir)` and press enter.  
+You are going to get a popup where to open a file.  
+
 3. Copy `spoton.dll` and paste inside this popup window. **OR** save it where you have your other DLL files. 
 
 
