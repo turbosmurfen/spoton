@@ -16,9 +16,9 @@ Spoton running on mIRC 7.67
 
 * **Supported Operating System**: Windows Vista, 7, 8.1, 10 and 11.
 * **Visual C++ Redistributable 2015-2022 (x86)**  
-* **Tested mIRC version**: 7.61 - 7.69  
-* **Tested Spotify Version**: 1.1.91
-* **Harddrive Space**: 17,4 KB.  
+* **Tested mIRC version**: 7.61 - 7.72  
+* **Tested Spotify Version**: 1.1.91 >= 1.1.99
+* **Harddrive Space**: 17,5 KB.  
 
 # Installation 
 
@@ -55,10 +55,13 @@ Use: _/dll pathtospoton\spoton.dll control **command**_
 | Command       |Description   |
 | --- | --- | 
 | play | Plays current song in Spotify (If paused). |
+| playpause | Plays or Pause a song, no limit. |
 | rplay | Play the song from the beginning. |
 | pause | Pauses Spotify (If playing). |
 | next | Play next Spotify song. |
 | prev | Play previous Spotify song. |
+| forward | Play forward 3 seconds forward in the song. |
+| backward | Play backward 3 seconds back in the song. |
 | volup | Increase the volume in Spotify. |
 | voldown | Decrease the volume in Spotify. |
 | volmute | Mute or Unmute Spotify volume. |
