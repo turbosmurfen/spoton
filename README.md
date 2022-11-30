@@ -26,7 +26,7 @@ Spoton running on mIRC 7.67
 2. If you don't have `Visual C++ Redistributable 2015-2022 (x86)` installed, download from here: [https://aka.ms/vs/17/release/vc_redist.x86.exe](https://aka.ms/vs/17/release/vc_redist.x86.exe).  
 3. Right Click on the archive which is named _spoton_vx.x.x.zip_, extract the archive.  
    * Optional - verify the hash: 
-       1. Open up powershell and **cd** to **Downloads\spoton_vx.x.x** folder. 
+       1. Open up powershell and **cd** to **spoton_vx.x.x** folder. 
        2. Run this command `Get-FileHash spoton.dll`. 
        3. Then look if the sha256 checksum is correct from [Releases](https://github.com/turbosmurfen/spoton/releases/latest). 
        4. If it's correct you should be fine. 
