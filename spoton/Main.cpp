@@ -46,8 +46,23 @@ vector<DWORD> pids;
 int status_{ 0 };
 HWND hWNd{};
 
-char vers[] = "1.1.6";
-char by[] = "Created by: Turbosmurfen";
+char version_[] = "1.1.7";
+char createdby[] = "Created by: Turbosmurfen";
+
+//Media Control
+enum Control {
+
+	PlayPause = 917504,
+	Stop = 851968,
+	NextTrack = 720896,
+	PreviousTrack = 786432,
+	RewindTrack = 3276800,
+	ForwardTrack = 3211264,
+	VolumeUp = 655360,
+	VolumeDown = 589824,
+	VolumeMute = 524288
+
+};
 
 void readData(wstring input, HWND hWnd) {
 
@@ -141,64 +156,46 @@ extern "C" int __stdcall song(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BO
 //Media Controls
 extern "C" int __stdcall control(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
-
+	
 	std::string cmd(data);
 	if (!cmd.empty()) {
 		ReadData();
-		//Play and Pause Controls
+
+		//Track controls
 		if (cmd == "playpause") {
-			if (hWNd) {
-				SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PLAY_PAUSE * 0x10000);
-			}
+			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, Control::PlayPause);
 		}
-		if (cmd == "pause") {
-			if (hWNd && status_ == 3) {
-				SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PLAY_PAUSE * 0x10000);
-			}
+		else if (cmd == "stop") {
+			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, Control::Stop);
 		}
-		else if (cmd == "play") {
-			if (hWNd && status_ == 1) {
-				SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PLAY_PAUSE * 0x10000);
-			}
-		}
-		//Next and Previous Controls
 		else if (cmd == "next") {
-			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_NEXTTRACK * 0x10000);
+			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, Control::NextTrack);
 		}
-		else if (cmd == "rplay") {
-			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PREVIOUSTRACK * 0x10000);
+		else if (cmd == "replay") {
+			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, Control::PreviousTrack);
 		}
-		else if (cmd == "prev") {
+		else if (cmd == "previous") {
 			if (hWNd) {
-				SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PREVIOUSTRACK * 0x10000);
-				SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PREVIOUSTRACK * 0x10000);
+				SendMessage(hWNd, WM_APPCOMMAND, 0, Control::PreviousTrack);
+				SendMessage(hWNd, WM_APPCOMMAND, 0, Control::PreviousTrack);
 			}
 		}
 		else if (cmd == "forward") {
-			if (hWNd) {
-				SendMessage(hWNd, WM_APPCOMMAND, 0, 3211264);
-			}
+			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, Control::ForwardTrack);
 		}
-		else if (cmd == "backward") {
-			if (hWNd) {
-				SendMessage(hWNd, WM_APPCOMMAND, 0, 3276800);
-			}
+		else if (cmd == "rewind") {
+			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, Control::RewindTrack);
 		}
+
 		//Volume Control
 		else if (cmd == "volup") {
-			if (hWNd) {
-				SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_VOLUME_UP * 0x10000);
-			}
+			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, Control::VolumeUp);
 		}
 		else if (cmd == "voldown") {
-			if (hWNd) {
-				SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_VOLUME_DOWN * 0x10000);
-			}
+			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, Control::VolumeDown);
 		}
 		else if (cmd == "volmute") {
-			if (hWNd) {
-				SendMessage(hWNd, WM_APPCOMMAND, 0, APPCOMMAND_VOLUME_MUTE * 0x10000);
-			}
+			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, Control::VolumeMute);
 		}
 	}
 	return 0;
@@ -207,14 +204,14 @@ extern "C" int __stdcall control(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
 //Created By
 extern "C" int __stdcall creator(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
-	strcpy_s(data, strlen(by) + 1, by);
+	strcpy_s(data, strlen(createdby) + 1, createdby);
 	return 3;
 }
 
 //Current Version
 extern "C" int __stdcall version(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
-	strcpy_s(data, strlen(vers) + 1, vers);
+	strcpy_s(data, strlen(version_) + 1, version_);
 	return 3;
 }
 
