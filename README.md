@@ -114,4 +114,6 @@ alias snp {
 ## Credits
 
 I have learned more about making mIRC reading and writing for DLL-file from [Wikichip](https://en.wikichip.org/wiki/mirc/dynamic-link_library)  
-Thanks to [Westor](https://github.com/westor7) for helping me out with fixing vulnerables and other things in the mIRC Beta Addon for Spoton.  
+Thanks to [@Westor](https://github.com/westor7) for helping me out with fixing vulnerables and other things in the mIRC Beta Addon for Spoton.  
+Thanks to [@moobsmc](https://github.com/moobsmc) for Stop Control for Spotify.  
+Thanks to [@Madis0](https://github.com/Madis0) for helping me with the readme and other things.  
