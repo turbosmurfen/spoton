@@ -117,3 +117,10 @@ I have learned more about making mIRC reading and writing for DLL-file from [Wik
 Thanks to [@Westor](https://github.com/westor7) for helping me out with fixing vulnerables and other things in the mIRC Beta Addon for Spoton.  
 Thanks to [@moobsmc](https://github.com/moobsmc) for Stop Control for Spotify.  
 Thanks to [@Madis0](https://github.com/Madis0) for helping me with the readme and other things.  
+
+# Future for Spoton  
+
+I know that many people are waiting for new features other than **artist - title** and **control** functions.  
+I have not been doing the course I should have following. I don't have enough of knowledge when it comes to read from electron applications, like Spotify. 
+  
+Spoton will stay updated but there will not come more features other than the stuff Spoton support from now. Maybe in the future, who knows :)  
