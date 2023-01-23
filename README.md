@@ -120,7 +120,4 @@ Thanks to [@Madis0](https://github.com/Madis0) for helping me with the readme an
 
 # Future for Spoton  
 
-I know that many people are waiting for new features other than **artist - title** and **control** functions.  
-I have not been doing the course I should have following. I don't have enough of knowledge when it comes to read from electron applications, like Spotify. 
-  
-Spoton will stay updated but there will not come more features other than the stuff Spoton support from now. Maybe in the future, who knows :)  
+I want to thanks everyone that have helped me and also have tested Spoton from beta stage and upon latest version of Spoton. I have put my time on other things than learning me C++. And I want to say that I no longer is going to update Spoton. If someone else want to update Spoton or use it's code, feel free to do that.
