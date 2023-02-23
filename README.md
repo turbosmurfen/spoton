@@ -54,11 +54,11 @@ Use: _/dll pathtospoton\spoton.dll control **command**_
 
 | Command       |Description   |
 | --- | --- | 
-| playpause | Plays or Pause a song. |
-| stop | Stops the playing song. |
-| replay | Play the song from the beginning. |
-| next | Play next Spotify song. |
-| previous | Play previous Spotify song. |
+| playpause | Plays or Pause the track. |
+| stop | Stops the playing track. |
+| replay | Play the track from the beginning. |
+| next | Play next track. |
+| previous | Play previous track. |
 | forward | Forward the current track. |
 | rewind | Rewind the current track. |
 | volup | Increase the volume in Spotify. |
