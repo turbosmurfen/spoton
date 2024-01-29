@@ -6,8 +6,6 @@
 
 # Spoton - Spotify Now Playing for mIRC  
 
-**Version 1.1.5 and newer fixes a memory leak, updating is highly recommended.**
-
 ![Spoton on mIRC 7.67](https://github.com/turbosmurfen/spoton/blob/main/img/spoton_example.png)
 
 Spoton running on mIRC 7.67
@@ -16,9 +14,9 @@ Spoton running on mIRC 7.67
 
 * **Supported Operating System**: Windows Vista, 7, 8.1, 10 and 11.
 * **Visual C++ Redistributable 2015-2022 (x86)**  
-* **Tested mIRC version**: 7.61 >= 7.72  
-* **Tested Spotify Version**: 1.1.91 >= 1.1.99
-* **Harddrive Space**: 17,5 KB.  
+* **Tested mIRC version**: 7.61 >= 7.76  
+* **Tested Spotify Version**: 1.1.91 >= 1.2.29
+* **Harddrive Space**: 18,5 KB.  
 
 # Installation 
 
@@ -47,6 +45,8 @@ Use: _$dll(pathtospoton\spoton.dll,**command**,)_
 | status        | 2             | Spotify is playing advertisement. |
 | status        | 3             | Spotify is playing a song.
 | song          | artist - title | Will output artist and title. |
+| artist        | artist        | Will output the artist. (if text contains " - ") |
+| title         | title         | Will output the title. (if text contains " - ") |
 
 ### Controlling Spotify from mIRC
 
@@ -54,16 +54,15 @@ Use: _/dll pathtospoton\spoton.dll control **command**_
 
 | Command       |Description   |
 | --- | --- | 
-| playpause | Plays or Pause the track. |
+| playpause | Plays or Pauses the track. |
+| play | Plays the track. |
+| pause | Pauses the track. |
 | stop | Stops the playing track. |
 | replay | Play the track from the beginning. |
 | next | Play next track. |
 | previous | Play previous track. |
 | forward | Forward the current track. |
 | rewind | Rewind the current track. |
-| volup | Increase the volume in Spotify. |
-| voldown | Decrease the volume in Spotify. |
-| volmute | Mute or Unmute Spotify volume. |
 
 ### Send current song to chat
 
@@ -117,7 +116,3 @@ I have learned more about making mIRC reading and writing for DLL-file from [Wik
 Thanks to [@Westor](https://github.com/westor7) for helping me out with fixing vulnerables and other things in the mIRC Beta Addon for Spoton.  
 Thanks to [@moobsmc](https://github.com/moobsmc) for Stop Control for Spotify.  
 Thanks to [@Madis0](https://github.com/Madis0) for helping me with the readme and other things.  
-
-# Future for Spoton  
-
-I want to thanks everyone that have helped me and also have tested Spoton from beta stage and upon latest version of Spoton. I have put my time on other things than learning me C++. And I want to say that I no longer is going to update Spoton. If someone else want to update Spoton or use it's code, feel free to do that.

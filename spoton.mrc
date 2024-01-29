@@ -1,25 +1,22 @@
-;Welcome to SpotOn mIRC Addon. Since this is only in beta.
-;You could not do so much. I'm not a good MSL coder, so this is the result in beta.
-;
-; This addon works best with Spoton 1.1.0 or later.
+;Welcome to Spoton mIRC Addon. Beta 0.0.2.
+;This addon works best with Spoton 1.1.8 or later.
 
-menu menubar,channel {
+menu menubar,channel,query {
   -
-  SpotOn
-  .Menu
-  ..Open Menu:spssh | dialog -m sps sps
+  Spoton
+  .Interface:spssh | dialog -m sps sps
   .-
   .Control
+  ..Play/Pause:/dll spoton.dll control playpause
   ..Play:/dll spoton.dll control play
-  ..Replay:/dll spoton.dll control rplay
   ..Pause:/dll spoton.dll control pause
+  ..Replay:/dll spoton.dll control replay
   ..Next:/dll spoton.dll control next
-  ..Previous:/dll spoton.dll control prev
-  ..Volume Up:/dll spoton.dll control volup
-  ..Volume Down:/dll spoton.dll control voldown
-  ..Mute Volume:/dll spoton.dll control volmute
-  .$iif($menu == channel,-)
-  .$iif($menu == channel,Say):snp
+  ..Previous:/dll spoton.dll control previous
+  ..Rewind:/dll spoton.dll control rewind
+  ..Forward:/dll spoton.dll control forward
+  .$iif($menu == channel,query)-
+  .$iif($menu == channel,query)say:snp
 }
 
 dialog sps {
@@ -92,10 +89,7 @@ alias -l spssh {
 
 ;Add new features from SpotOn
 alias -l spfrmx { 
-  var %spuyt = [Song] $str($chr(9),2) Shows the Artist - Title $+ $crlf
-  ;var %spuyt = %spuyt $+ [Artist] $str($chr(9),2) Shows the Artist $+ $crlf
-  ;var %spuyt = %spuyt $+ [Title] $str($chr(9),2) Shows the Title $+ $crlf
-  return %spuyt
+  return $+([song],$str($chr(9),2),Shows the Artist - Title,$crlf,[artist],$str($chr(9),2),Shows the Artist,$crlf,[title],$str($chr(9),2),Shows the Title)
 }
 
 ;Generate says into the window
@@ -129,15 +123,12 @@ menu @saylist {
   Remove:write -dl $+ $sline(@saylists,1).ln says.txt | spotwin
 }
 
-;## 0therz ##
+;## 0ther ##
 
 
-;Replace x with SpotOn features.
-alias -l spfrm {
-  var %f1 = $replace($1-,[song],$dll($spfind,song,))
-  ;var %f2 = $replace(%f1,[artist],$dll($spfind,artist,))
-  ;var %f3 = $replace(%f2,[title],$dll($spfind,title,))
-  return $spc(%f1)
+;Replace value with data from [x] [y] [z]
+alias -1 spfrm {
+  return $spc($replace($1-,[song],$dll($spfind,song,),[artist],$dll($spfind,artist,),[title],$dll($spfind,title,)))
 }
 
 ;Check if channel have +c (Colors enabled)
@@ -150,26 +141,31 @@ alias -l spc {
 }
 
 ;Checks if spoton.dll exists and return the path
-alias -l spfind {
+alias spfind {
   if ($exists($+($nofile($script),spoton.dll))) {
     return $+($nofile($script),spoton.dll)
   }
-  else { echo -ag * Can't find the DLL-file. | halt }
+  else { echo 04 -ag * [Spoton] - Can't find spoton.dll. | halt }
 }
 
-;If SpotOn is playing a song (Status Code: 3), write out to the channel/pm.
+;If Spoton is playing a song (Status Code: 3), write out to the channel/pm.
 alias snp {
   if ($dll($spfind,status,0) == 3) {
-    say $spfrm(%saythis)
+    if ($server != $null) {
+      say $spfrm(%saythis)
+    }
+    else {
+      echo 04 -ag * [Spoton] - You are not connected to an IRC-Server.
+    }
   }
-  else { echo -ag * Spotify is $replace($dll($spfind,status,0),0,Not running,1,Paused,2,Playing Advertisement) | halt }
+  else { echo 02 -ag * [Spoton] - Spotify is $replace($dll($spfind,status,0),0,Not running,1,Paused,2,Playing Advertisement) $+ . | halt }
 }
 
 ;Setup everything that is needed when loaded.
 on *:load:{
   if (!%saythis) { set %saythis Spotify » [song] }
   spssh
-  echo -ag Spoton is loaded!
+  echo 02 -ag * [Spoton] - Spoton is loaded!
 }
 
 on *:unload:{
@@ -179,5 +175,5 @@ on *:unload:{
   if ($window(@spss)) { window -c $v1 }
   if ($isfile(says.txt)) { .remove says.txt }
   unset %saythis
-  echo -ag SpotOn is now unloaded!
+  echo 02 -ag * [Spoton] - SpotOn is now unloaded!
 }
