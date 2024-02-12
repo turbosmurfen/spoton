@@ -16,7 +16,7 @@ Spoton running on mIRC 7.67
 * **Visual C++ Redistributable 2015-2022 (x86)**  
 * **Tested mIRC version**: 7.61 >= 7.76  
 * **Tested Spotify Version**: 1.1.91 >= 1.2.29
-* **Harddrive Space**: 18,5 KB.  
+* **HDD/SSD Space**: 18,5 KB.  
 
 # Installation 
 
@@ -40,13 +40,10 @@ Use: _$dll(pathtospoton\spoton.dll,**command**,)_
 | --- | --- | --- |  
 | version       | x.x.x         | Will output which version of spoton you use.  |  
 | creator       | x - Made by   | Will output the creator of spoton.  |  
-| status        | 0             | Spotify is not running. |
-| status        | 1             | Spotify is paused. |
-| status        | 2             | Spotify is playing advertisement. |
-| status        | 3             | Spotify is playing a song.
+| status        | 0 - 3         | 0 = Spotify is not running, 1 = Spotify is Paused, 2 = Spotify is playing an Advertisement, 3 = Spotifty is playing a track. |
 | song          | artist - title | Will output artist and title. |
 | artist        | artist        | Will output the artist. (if text contains " - ") |
-| title         | title         | Will output the title. (if text contains " - ") |
+| title         | title         | Will output the title. (if artist text contains " - ") |
 
 ### Controlling Spotify from mIRC
 
@@ -78,10 +75,10 @@ To add the script:
 ```mirc
 alias snp {
   var %status $dll(spoton.dll,status,)
-  if (%status == 1) echo -a Spotify is paused.
-  elseif (%status == 2) echo -a Spotify is playing Advertisement.
+  if (%status == 1) echo -ag Spotify is Paused.
+  elseif (%status == 2) echo -ag Spotify is playing Advertisement.
   elseif (%status == 3) say Spotify » $dll(spoton.dll,song,)
-  else echo -a Spotify is not running.
+  else echo -ag Spotify is not running.
 }
 ```
 
