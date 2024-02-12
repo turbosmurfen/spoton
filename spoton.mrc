@@ -1,7 +1,7 @@
-;Welcome to Spoton mIRC Addon. Beta 0.0.2.
+;Welcome to Spoton mIRC Addon. Beta 0.0.4.
 ;This addon works best with Spoton 1.1.8 or later.
 
-menu menubar,channel,query {
+menu menubar,channel,query,status {
   -
   Spoton
   .Interface:spssh | dialog -m sps sps
@@ -15,12 +15,14 @@ menu menubar,channel,query {
   ..Previous:/dll spoton.dll control previous
   ..Rewind:/dll spoton.dll control rewind
   ..Forward:/dll spoton.dll control forward
-  .$iif($menu == channel,query)-
-  .$iif($menu == channel,query)say:snp
+  .$iif($menu == channel,-)
+  .$iif($menu == channel,Announce):snp
+  .$iif($menu == query,-)
+  .$iif($menu == query,Announce):snp
 }
 
 dialog sps {
-  title "SpotOn"
+  title "Spoton"
   size -1 -1 187 64
   option dbu
   box "", 1, 1 0 185 53
@@ -34,6 +36,7 @@ dialog sps {
 on *:dialog:sps:*:*:{
   if ($devent == init) {
     did -a $dname 4 $spfrmx
+    dialog -t $dname $+(Spoton v,$dll($spfind,version,),$chr(32),- Addon Beta: %sptnbeta)
     if ($lines(says.txt) > 0) { did -e $dname 6 }
     if (%saythis) {
       spssh %saythis 
@@ -47,7 +50,7 @@ on *:dialog:sps:*:*:{
         var %line = $iif($lines(says.txt) == 0,1,$calc($v1 +1))
         write says.txt %line $+ $chr(144) $+ $did(2)
       }
-      else { noop $input(The Say is already in the list!,woud,SpotOn) | set %saythis $did(2) }
+      else { noop $input(The Say is already in the list!,woud,Spoton) | set %saythis $did(2) }
       did -e $dname 6
     }
     if ($did == 6) { $iif($window(@saylist),window -c @saylist,spotwin) }
@@ -105,7 +108,7 @@ alias -l spotwin {
       inc %o
     }
   }
-  else { set %saythis spotify > [song] }
+  else { set %saythis Spotify » [song] }
 }
 
 ;Select and Remove says.
@@ -127,7 +130,7 @@ menu @saylist {
 
 
 ;Replace value with data from [x] [y] [z]
-alias -1 spfrm {
+alias spfrm {
   return $spc($replace($1-,[song],$dll($spfind,song,),[artist],$dll($spfind,artist,),[title],$dll($spfind,title,)))
 }
 
@@ -165,6 +168,7 @@ alias snp {
 on *:load:{
   if (!%saythis) { set %saythis Spotify » [song] }
   spssh
+  set %sptnbeta 0.0.4
   echo 02 -ag * [Spoton] - Spoton is loaded!
 }
 
@@ -175,5 +179,6 @@ on *:unload:{
   if ($window(@spss)) { window -c $v1 }
   if ($isfile(says.txt)) { .remove says.txt }
   unset %saythis
+  unset %sptnbeta
   echo 02 -ag * [Spoton] - SpotOn is now unloaded!
 }
