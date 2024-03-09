@@ -28,6 +28,7 @@ https://creativecommons.org/licenses/by/4.0/
 
 //#include <cstdio>
 #include <windows.h>
+#include <WinUser.h>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -43,12 +44,12 @@ https://creativecommons.org/licenses/by/4.0/
 #pragma comment(linker, "/EXPORT:status=_status@24")
 #pragma comment(linker, "/EXPORT:control=_control@24")
 using namespace std;
-string text{};
+string text;
 vector<DWORD> pids;
-int status_{0};
-HWND hWNd{};
+int status_ = 0;
+HWND hWNd;
 
-char version_[] = "1.1.8";
+char version_[] = "1.1.9";
 char createdby[] = "Created by: Turbosmurfen";
 
 //Media Control
@@ -56,13 +57,12 @@ enum MediaControl {
 	Play = 3014656, //APPCOMMAND_MEDIA_PLAY * 0x10000
 	Pause = 3080192, //APPCOMMAND_MEDIA_PAUSE * 0x10000 
 	PlayPause = 917504, //APPCOMMAND_MEDIA_PLAY_PAUSE * 0x10000
-	Stop = 851968, //APPCOMMAND_MEDIA_STOP * 0x10000
 	NextTrack = 720896, //APPCOMMAND_MEDIA_NEXTTRACK * 0x10000
 	PreviousTrack = 786432, //APPCOMMAND_MEDIA_PREVIOUSTRACK * 0x10000
 	RewindTrack = 3276800, //APPCOMMAND_MEDIA_REWIND * 0x10000
 	ForwardTrack = 3211264, //APPCOMMAND_MEDIA_FAST_FORWARD * 0x10000
-
 };
+
 
 void readData(wstring input, HWND hWnd) {
 
@@ -80,8 +80,8 @@ void readData(wstring input, HWND hWnd) {
 			int count = WideCharToMultiByte(CP_UTF8, 0, input.c_str(), input.length(), NULL, 0, NULL, NULL);
 			string str(count, 0);
 			WideCharToMultiByte(CP_UTF8, 0, input.c_str(), -1, &str[0], count, NULL, NULL);
-			std::replace(str.begin(), str.end(), '\n', ' ');
-			std::replace(str.begin(), str.end(), '\r', ' ');
+			replace(str.begin(), str.end(), '\n', ' ');
+			replace(str.begin(), str.end(), '\r', ' ');
 			text = str;
 			status_ = 3;
 			hWNd = hWnd;
@@ -113,7 +113,6 @@ static BOOL CALLBACK enumWindowCallback(HWND hWnd, LPARAM lparam) {
 		return TRUE;
 	}
 }
-
 static void ReadData() {
 	PROCESSENTRY32 entry;
 	entry.dwSize = sizeof(PROCESSENTRY32);
@@ -201,36 +200,38 @@ extern "C" int __stdcall control(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
 	if (!cmd.empty()) {
 		ReadData();
 
-		//Track controls
+		//Play or pauses a track
 		if (cmd == "playpause") {
 			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::PlayPause);
 		}
+		//Plays a paused track
 		else if (cmd == "play") {
 			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::Play);
 		}
+		//Pause a track if playing
 		else if (cmd == "pause") {
 			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::Pause);
 		}
-		else if (cmd == "stop") {
-			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::Stop);
-		}
+		//Playing next track
 		else if (cmd == "next") {
 			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::NextTrack);
 		}
-		else if (cmd == "replay") {
+		//Plays track from beginning or previous track
+		else if (cmd == "previous") {
 			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::PreviousTrack);
 		}
-		else if (cmd == "previous") {
-			if (hWNd) {
-				SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::PreviousTrack);
-				SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::PreviousTrack);
-			}
-		}
+		//Plays the track forward
 		else if (cmd == "forward") {
 			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::ForwardTrack);
 		}
+		//plays the track backward
 		else if (cmd == "rewind") {
 			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::RewindTrack);
+		}
+
+		//Open up Spotify window
+		else if (cmd == "show") {
+			if (hWNd) ShowWindow(hWNd, 1);
 		}
 	}
 	return 0;
