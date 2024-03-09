@@ -1,18 +1,18 @@
 <p align="center">
-  <img width="120" height="120" src="https://github.com/turbosmurfen/spoton/blob/main/img/spoton_logo.png">
+  <img width="120" height="120" src="https://raw.githubusercontent.com/turbosmurfen/spoton/main/img/spoton_logo.png">
 </p>
 
 [![Github All Releases](https://img.shields.io/github/downloads/turbosmurfen/spoton/total.svg)]() [![CodeQL](https://github.com/turbosmurfen/spoton/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/turbosmurfen/spoton/actions/workflows/codeql-analysis.yml)
 
 # Spoton - Spotify Now Playing for mIRC  
 
-![Spoton on mIRC 7.67](https://github.com/turbosmurfen/spoton/blob/main/img/spoton_example.png)
+![Spoton on mIRC 7.67](https://raw.githubusercontent.com/turbosmurfen/spoton/main/img/spoton_example.png)
 
 Spoton running on mIRC 7.67
 
 # Requirements
 
-* **Supported Operating System**: Windows Vista, 7, 8.1, 10 and 11.
+* **Supported Operating System**: Windows 10 and 11.
 * **Visual C++ Redistributable 2015-2022 (x86)**  
 * **Tested mIRC version**: 7.61 - 7.76  
 * **Tested Spotify Version**: 1.1.91 - 1.2.30
@@ -26,7 +26,7 @@ Spoton running on mIRC 7.67
    * Optional - verify the hash: 
        1. Open up powershell and **cd** to **spoton_vx.x.x** folder. 
        2. Run this command `Get-FileHash spoton.dll`. 
-       3. Then look if the sha256 checksum is correct from [Releases](https://github.com/turbosmurfen/spoton/releases/latest). 
+       3. Then look if the sha256 checksum is correct from [Releases](https://github.com/turbosmurfen/spoton/releases/latest).
        4. If it's correct you should be fine. 
 4. Open mIRC.
 5. Paste `//noop $sfile($mircdir)` to mIRC and press enter. You will see a file picker dialog.
@@ -43,7 +43,7 @@ Use: _$dll(pathtospoton\spoton.dll,**command**,)_
 | status        | 0 - 3         | 0 = Spotify is not running, 1 = Spotify is Paused, 2 = Spotify is playing an Advertisement, 3 = Spotifty is playing a track. |
 | song          | artist - title | Will output artist and title. |
 | artist        | artist        | Will output the artist. (if text contains " - ") |
-| title         | title         | Will output the title. (if artist text contains " - ") |
+| title         | title         | Will output the title. (if text contains " - ") |
 
 ### Controlling Spotify from mIRC
 
@@ -54,15 +54,13 @@ Use: _/dll pathtospoton\spoton.dll control **command**_
 | playpause | Plays or Pauses the track. |
 | play | Plays the track. |
 | pause | Pauses the track. |
-| stop | Stops the playing track. |
-| replay | Play the track from the beginning. |
 | next | Play next track. |
 | previous | Play previous track. |
 | forward | Forward the current track. |
 | rewind | Rewind the current track. |
+| show | Open the Spotify Window. |
 
-### Send current song to chat
-
+### Show current song as status
 Please ensure Spoton alias **snp** is not triggered by any other scripts.  
   
 To add the script:
@@ -81,6 +79,18 @@ alias snp {
   else echo -ag Spotify is not running.
 }
 ```
+
+### Add playback buttons to interface
+This script adds playback buttons to your chat interface.
+
+1. Open the folder "Spoton mIRC Addon". 
+3. Copy the contents and paste to mIRC. Ensure you have spoton.dll there as well (from releases).
+4. Type ``/load -rs spoton.mrc`` in mIRC. The script will return that it is loaded.
+
+Removal:
+
+1. Type ``/unload -rs spoton.mrc`` in mIRC
+2. Remove spoton.dll and the folder img.   
 
 # Frequently Asked Questions
 
