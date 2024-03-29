@@ -49,7 +49,7 @@ vector<DWORD> pids;
 int status_ = 0;
 HWND hWNd;
 
-char version_[] = "1.1.9";
+char version_[] = "1.2.0";
 char createdby[] = "Created by: Turbosmurfen";
 
 //Media Control
@@ -66,16 +66,21 @@ enum MediaControl {
 
 void readData(wstring input, HWND hWnd) {
 
+	//If input is not empty (Spotify met the conditions below)
 	if (!input.empty()) {
 		const wchar_t* wchar_0 = input.c_str();
+
+		//if these conditions are met, Spotify is paused.
 		if (wcscmp(wchar_0, L"Spotify Premium") == 0 || wcscmp(wchar_0, L"Spotify Free") == 0) {
 			status_ = 1;
 			hWNd = hWnd;
 		}
+		//if this condition is met, Spotify is playing an advertisement
 		else if (wcscmp(wchar_0, L"Advertisement") == 0) {
 			status_ = 2;
 			hWNd = hWnd;
 		}
+		//If not the conditions before is met, Spotify is playing a song
 		else {
 			int count = WideCharToMultiByte(CP_UTF8, 0, input.c_str(), input.length(), NULL, 0, NULL, NULL);
 			string str(count, 0);
@@ -87,6 +92,7 @@ void readData(wstring input, HWND hWnd) {
 			hWNd = hWnd;
 		}
 	}
+	//If input is empty, there is no song playing in Spotify
 	else {
 		status_ = 0;
 	}
@@ -94,22 +100,28 @@ void readData(wstring input, HWND hWnd) {
 
 
 static BOOL CALLBACK enumWindowCallback(HWND hWnd, LPARAM lparam) {
+
+	//Grab the text lenght of the Window (length)
 	int length = GetWindowTextLength(hWnd);
 	DWORD proc;
+	//Get the processid from the Window (proc)
 	GetWindowThreadProcessId(hWnd, &proc);
 	wchar_t wText[1024];
+	//Get the Window text of the Window (wText)
 	GetWindowTextW(hWnd, wText, length + 1);
-	char* buffer0 = new char[256];
-	GetClassNameA(hWnd, buffer0, 256);
-	string wClass = buffer0;
 
-	if (IsWindowVisible(hWnd) && length != 0 && wClass == "Chrome_WidgetWin_0" && find(pids.begin(), pids.end(), proc) != pids.end()) {
+	/*
+	If the condition is met:
+	Window is not in tray,
+	length of Windows text is not empty,
+	Process ids is really the Spotify Window.
+	*/
+	if (IsWindowVisible(hWnd) && length != 0 && find(pids.begin(), pids.end(), proc) != pids.end()) {
 		readData(wText, hWnd);
-		delete[] buffer0;
 		return FALSE;
 	}
+	//If no condition is met, ignore everything else.
 	else {
-		delete[] buffer0;
 		return TRUE;
 	}
 }
@@ -122,17 +134,22 @@ static void ReadData() {
 	{
 		while (Process32Next(handle, &entry))
 		{
+			//If process is Spotify.exe, there could be more processes (6 of them),
+			//Push the process id's into the vector for later checks.
 			if (_tcsicmp(entry.szExeFile, _T("Spotify.exe")) == 0)
 			{
 				pids.push_back(entry.th32ProcessID);
 			}
 		}
 	}
+	//Close the handle for process listing
 	CloseHandle(handle);
+	//If the process id's is empty. Spotify is not running.
 	if (pids.empty()) {
 		status_ = 0;
 	}
 	else {
+		//If the process id's is not empty (Spotify is running), run a check for running Windows.
 		EnumWindows(enumWindowCallback, NULL);
 		pids.clear();
 	}
@@ -200,7 +217,7 @@ extern "C" int __stdcall control(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
 	if (!cmd.empty()) {
 		ReadData();
 
-		//Play or pauses a track
+		//Plays or pauses a track
 		if (cmd == "playpause") {
 			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::PlayPause);
 		}
@@ -208,7 +225,7 @@ extern "C" int __stdcall control(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
 		else if (cmd == "play") {
 			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::Play);
 		}
-		//Pause a track if playing
+		//Pauses a track if playing
 		else if (cmd == "pause") {
 			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::Pause);
 		}
@@ -254,7 +271,7 @@ extern "C" int __stdcall version(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
 /* Sending out the numbers of status (0-3)
 * 0 - Spotify is not running
 * 1 - Spotify is paused
-* 2 - Spotfy is playing Advertisement
+* 2 - Spotfy is playing advertisement
 * 3 - Spotify is playing a song
 */
 extern "C" int __stdcall status(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
