@@ -15,7 +15,7 @@ Spoton running on mIRC 7.67
 * **Supported Operating System**: Windows 10 and 11.
 * **Visual C++ Redistributable 2015-2022 (x86)**  
 * **Tested mIRC version**: 7.61 - 7.76  
-* **Tested Spotify Version**: 1.1.91 - 1.2.30
+* **Tested Spotify Version**: 1.1.91 - 1.2.33
 * **HDD/SSD Space**: 18,5 KB.  
 
 # Installation 
@@ -73,17 +73,15 @@ To add the script:
 ```mirc
 alias snp {
   var %status $dll(spoton.dll,status,)
-  if (%status == 1) echo -ag Spotify is Paused.
-  elseif (%status == 2) echo -ag Spotify is playing Advertisement.
-  elseif (%status == 3) say Spotify » $dll(spoton.dll,song,)
-  else echo -ag Spotify is not running.
+  if (%status == 3) say Spotify » $dll(spoton.dll,song,)
+  else echo -ag Spotify is $replace(%status,0,Not Running,1,Paused,2,Playing Advertisement)
 }
 ```
 
 ### Add playback buttons to interface
 This script adds playback buttons to your chat interface.
 
-1. Open the folder "Spoton mIRC Addon". 
+1. Download and extract the archive "Spoton mIRC Addon.zip" 
 3. Copy the contents and paste to mIRC. Ensure you have spoton.dll there as well (from releases).
 4. Type ``/load -rs spoton.mrc`` in mIRC. The script will return that it is loaded.
 
@@ -113,13 +111,13 @@ Removal:
 > 1. You have put the DLL file in the wrong location.
 > 2. You need to install [Visual C++ Redistributable 2015-2022 (x86)](https://aka.ms/vs/17/release/vc_redist.x86.exe)  
 
-> **Q**: I am getting an error: _/echo: insufficient parameters_ or _Artist - ??? ?????? ???_.
+> **Q**: I am getting an error: _/echo: insufficient parameters_ or _Artist - ??? ?????? ???_ or nothing.
 >
 > **A**: You are using an outdated version of Spoton. Please update.
 
 ## Credits
 
 I have learned more about making mIRC reading and writing for DLL-file from [Wikichip](https://en.wikichip.org/wiki/mirc/dynamic-link_library)  
-Thanks to [@Westor](https://github.com/westor7) for helping me out with fixing vulnerables and other things in the mIRC Beta Addon for Spoton.  
+Thanks to [@Westor](https://github.com/westor7) for helping me out with fixing vulnerables and other things in the "Spoton mIRC Addon".  
 Thanks to [@moobsmc](https://github.com/moobsmc) for Stop Control for Spotify.  
 Thanks to [@Madis0](https://github.com/Madis0) for helping me with the readme and other things.  
