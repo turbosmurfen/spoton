@@ -41,7 +41,7 @@ Use: _$dll(pathtospoton\spoton.dll,**command**,)_
 | version       | x.x.x         | Version of the plugin |  
 | creator       | x - Made by y  | Credits of the plugin creator |  
 | status        | 0 - 3         | 0 = Spotify is not running, 1 = Spotify is paused, 2 = Spotify is playing an advertisement, 3 = Spotify is playing a track. |
-| song          | artist - title | Artist and song title, or only song title if the artist is not given |
+| song          | artist - title | The entire window title, which is usually the artist and song title, joined with a dash ("-") |
 | artist        | artist        | The left side of the window title, usually the artist. Returns nothing if the title does not contain a dash ("-") |
 | title         | title         | The right side of the window title, usually the song title. Returns nothing if the title does not contain a dash ("-") |
 
