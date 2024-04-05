@@ -41,9 +41,9 @@ Use: _$dll(pathtospoton\spoton.dll,**command**,)_
 | version       | Version of the plugin |  
 | creator       | Credits of the plugin creator |  
 | status        | 0 = Spotify not running, 1 = Spotify paused, 2 = Spotify playing an advertisement, 3 = Spotify playing a track. |
-| song          | The entire window title, usually the artist and song title, joined with a dash ("-") |
-| artist        | The left side of the window title, usually the artist. Returns nothing if the title does not contain a dash ("-") |
-| title         | The right side of the window title, usually the song title. Returns nothing if the title does not contain a dash ("-") |
+| song          | The entire window title, usually "artist - song title" |
+| artist        | If the title contains a dash ("-"), returns the left side, usually the artist. Otherwise, nothing. |
+| title         | If the title contains a dash ("-"), returns the right side, usually the song title. Otherwise, nothing. |
 
 ### Controlling Spotify from mIRC
 
