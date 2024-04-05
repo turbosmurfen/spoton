@@ -38,7 +38,7 @@ Use: _$dll(pathtospoton\spoton.dll,**command**,)_
 
 | Command       | Output format        | Output description   |   
 | --- | --- | --- |  
-| version       | x.x.x         | Version of the plugin  |  
+| version       | x.x.x         | Version of the plugin |  
 | creator       | x - Made by y  | Credits of the plugin creator |  
 | status        | 0 - 3         | 0 = Spotify is not running, 1 = Spotify is paused, 2 = Spotify is playing an advertisement, 3 = Spotify is playing a track. |
 | song          | artist - title | Artist and song title, or only song title if the artist is not given |
