@@ -1,5 +1,5 @@
-;Welcome to Spoton mIRC Addon. Beta 0.0.5.
-;This addon works best with Spoton 1.1.9 or later.
+;Welcome to Spoton mIRC Addon. Beta 0.0.6.
+;This addon works best with Spoton 1.2.0 or later.
 
 ;Icons made by icons8 - https://icons8.com/
 
@@ -116,6 +116,9 @@ alias -l sptnrun {
     }
     elseif ($isfile(%path2)) {
       /run %path2
+    }
+    else {
+      echo 04 -ag * [Spoton] - Spotify is not installed on this system.
     }
   }
   else {
@@ -269,7 +272,7 @@ on *:load:{
   set %sptnsaythis Spotify » [song]
   spssh
   set %sptncntrl $toolbar(0) + 1
-  set %sptnbeta 0.0.5
+  set %sptnbeta 0.0.6
   set %sptnmedia 0
   echo 02 -ag * [Spoton] - Spoton is loaded!
 }
