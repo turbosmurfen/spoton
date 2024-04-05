@@ -36,14 +36,14 @@ Spoton running on mIRC 7.67
 
 Use: _$dll(pathtospoton\spoton.dll,**command**,)_
 
-| Command       | output        | Description   |   
+| Command       | Output format        | Output description   |   
 | --- | --- | --- |  
-| version       | x.x.x         | Will output which version of spoton you use.  |  
-| creator       | x - Made by   | Will output the creator of spoton.  |  
-| status        | 0 - 3         | 0 = Spotify is not running, 1 = Spotify is Paused, 2 = Spotify is playing an Advertisement, 3 = Spotifty is playing a track. |
-| song          | artist - title | Will output artist and title. |
-| artist        | artist        | Will output the artist. (if text contains " - ") |
-| title         | title         | Will output the title. (if text contains " - ") |
+| version       | x.x.x         | Version of the plugin  |  
+| creator       | x - Made by y  | Credits of the plugin creator |  
+| status        | 0 - 3         | 0 = Spotify is not running, 1 = Spotify is paused, 2 = Spotify is playing an advertisement, 3 = Spotify is playing a track. |
+| song          | artist - title | Artist and song title, or only song title if the artist is not given |
+| artist        | artist        | The left side of the window title, usually the artist. Returns nothing if the title does not contain a dash ("-") |
+| title         | title         | The right side of the window title, usually the song title. Returns nothing if the title does not contain a dash ("-") |
 
 ### Controlling Spotify from mIRC
 
