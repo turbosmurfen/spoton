@@ -30,7 +30,7 @@ Spoton running on mIRC 7.67
        4. If it's correct you should be fine. 
 4. Open mIRC.
 5. Paste `//noop $sfile($mircdir)` to mIRC and press enter. You will see a file picker dialog.
-6. Copy `spoton.dll` and paste inside this popup window. **OR** save it where you have your other DLL files. 
+6. Navigate to the folder where you extracted the archive and select `spoton.dll`. 
 
 # Usage
 
