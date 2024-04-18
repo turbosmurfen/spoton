@@ -14,8 +14,8 @@ Spoton running on mIRC 7.67
 
 * **Supported Operating System**: Windows 10 and 11.
 * **Visual C++ Redistributable 2015-2022 (x86)**  
-* **Tested mIRC version**: 7.61 - 7.76  
-* **Tested Spotify Version**: 1.1.91 - 1.2.33
+* **mIRC version**: 7.61 - 7.76  
+* **Spotify Version**: 1.1.91 - 1.2.33
 * **HDD/SSD Space**: 18,5 KB.  
 
 # Installation 
