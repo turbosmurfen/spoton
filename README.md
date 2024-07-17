@@ -32,8 +32,7 @@ Spoton running on mIRC 7.67
        3. Then look if the sha256 checksum is correct from [Releases](https://github.com/turbosmurfen/spoton/releases/latest).
        4. If it's correct you should be fine. 
 4. Open mIRC.
-5. Paste `//noop $sfile($mircdir)` to mIRC and press enter. You will see a file picker dialog.
-6. Navigate to the folder where you extracted the archive and select `spoton.dll`. 
+5. In mIRC, write `/run $mircdir`, then move spoton.dll from the downloaded archive to the opened folder.
 
 # Usage
 
