@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="120" height="120" src="https://raw.githubusercontent.com/turbosmurfen/spoton/main/img/spoton_logo.png">
+  <img src="https://raw.githubusercontent.com/turbosmurfen/spoton/main/img/spoton_logo.png">
 </p>
 
 [![Github All Releases](https://img.shields.io/github/downloads/turbosmurfen/spoton/total.svg)]() [![CodeQL](https://github.com/turbosmurfen/spoton/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/turbosmurfen/spoton/actions/workflows/codeql-analysis.yml)
@@ -15,11 +15,11 @@ Spoton running on mIRC 7.67
 * **Supported Operating System**: Windows 10 and 11.
 * **Visual C++ Redistributable 2015-2022 (x86)**  
 * **mIRC Version**: 7.61 - 7.77  
-* **Spotify Version**: 1.1.91 - 1.2.40
-* **HDD/SSD Space**: 18,5 KB.
+* **Spotify Version**: 1.1.91 - 1.2.43  
+* **HDD/SSD Space**: 17,5 KB  
 
 >[!NOTE]
-> mIRC or Spotify version ABOVE is not going to be updated frequently.
+> mIRC and Spotify version ABOVE is not going to be updated frequently.
 
 # Installation 
 
@@ -32,24 +32,24 @@ Spoton running on mIRC 7.67
        3. Then look if the sha256 checksum is correct from [Releases](https://github.com/turbosmurfen/spoton/releases/latest).
        4. If it's correct you should be fine. 
 4. Open mIRC.
-5. In mIRC, write `/run $mircdir`, then move spoton.dll from the downloaded archive to the opened folder.
+5. In mIRC, write `//run $mircdir`, then move spoton.dll from the downloaded archive to the opened folder.
 
 # Usage
 
-Use: _$dll(pathtospoton\spoton.dll,**command**,)_
+Use: _$dll(spoton.dll,**command**,)_
 
 | Command       | Description   |   
 | --- | --- |  
 | version       | Version of the plugin |  
 | creator       | Credits of the plugin creator |  
-| status        | 0 = Spotify not running, 1 = Spotify paused, 2 = Spotify playing an advertisement, 3 = Spotify playing a track. |
+| status        | 0 - Spotify is not running, 1 - Spotify is paused, 2 - Spotify is playing an advertisement, 3 - Spotify is playing a track. |
 | song          | The entire window title, usually "artist - song title" |
 | artist        | If the title contains a dash ("-"), returns the left side, usually the artist. Otherwise, nothing. |
 | title         | If the title contains a dash ("-"), returns the right side, usually the song title. Otherwise, nothing. |
 
 ### Controlling Spotify from mIRC
 
-Use: _/dll pathtospoton\spoton.dll control **command**_
+Use: _/dll spoton.dll control **command**_
 
 | Command       |Description   |
 | --- | --- | 
@@ -83,13 +83,13 @@ alias snp {
 ### Add playback buttons to interface
 This script adds playback buttons to your chat interface.
 
-1. Download and extract the archive "Spoton mIRC Addon.zip" 
-3. Copy the contents and paste to mIRC. Ensure you have spoton.dll there as well (from releases).
+1. Download and extract the archive "Spoton.mIRC.Addon.zip" 
+3. Copy the contents and paste to the mIRC folder. Ensure you have spoton.dll there as well (from releases).
 4. Type ``/load -rs spoton.mrc`` in mIRC. The script will return that it is loaded.
 
 Removal:
 
-1. Type ``/unload -rs spoton.mrc`` in mIRC
+1. Type ``/unload -rs spoton.mrc`` in mIRC.
 2. Remove spoton.dll and the folder img.   
 
 # Frequently Asked Questions
@@ -100,13 +100,13 @@ Removal:
 
 > **Q**: How does Spoton work?
 >
-> **A**: It works by reading Windows API calls from Spotify to detect _artist - title_, plus using Spotify's media controls.
+> **A**: It works by using the Windows API calls from Spotify to detect _artist - title_, plus using Spotify's media controls.
 
 > **Q**: Does Spoton require a Spotify API key or internet connection?
 >
 > **A**: No. Spoton does not use Spotify API keys and it works offline.  
 
-> **Q**: I am getting an error: _$dll: unable to open 'C:\Users\USERNAME\AppData\Roaming\mIRC\pathtospoton\spoton.dll_
+> **Q**: I am getting an error: _$dll: unable to open 'C:\Users\USERNAME\AppData\Roaming\mIRC\spoton.dll_
 >
 > **A**: This can show up for 2 reasons:  
 > 
