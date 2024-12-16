@@ -1,5 +1,5 @@
 > [!CAUTION]  
-> Due to lack of time I dont update the code and script anymore, people who may use it should do it with caution.  
+> Due to lack of time I dont update the code and script anymore.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/turbosmurfen/spoton/main/img/spoton_logo.png">
