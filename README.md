@@ -1,4 +1,4 @@
-> [!CAUTION]  
+> [!NOTE]  
 > Due to lack of time I dont update the code and script anymore.
 
 <p align="center">
