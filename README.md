@@ -84,11 +84,12 @@ alias snp {
 ```
 
 ### Add playback buttons to interface
-This script adds playback buttons to your chat interface.
+This script adds playback buttons to your chat interface. Playback buttons is disabled by default.
 
 1. Download and extract the archive "Spoton.mIRC.Addon.zip" 
-3. Copy the contents and paste to the mIRC folder. Ensure you have spoton.dll there as well (from releases).
-4. Type ``/load -rs spoton.mrc`` in mIRC. The script will return that it is loaded.
+2. Copy the contents and paste to the mIRC folder. Ensure you have spoton.dll there as well (from releases).
+3. Type ``/load -rs spoton.mrc`` in mIRC. The script will return that it is loaded.
+4. Right click in status > Spoton > Interface, and toggle the playback buttons.
 
 Removal:
 
