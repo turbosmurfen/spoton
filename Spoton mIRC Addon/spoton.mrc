@@ -24,7 +24,7 @@ dialog sps {
   ;icon 3, 7 53 183 15,  spssh.bmp, 0, noborder
   icon 3, 7 53 183 15,  spssh.bmp, 0, noborder
   text "", 4, 8 12 140 27
-  button "Save", 5, 152 7 29 10, disable flat
+  button "Save", 5, 152 10 29 10, disable flat
   button "List", 6, 152 21 29 10, disable flat
   radio "Disabled", 7, 8 83 34 10
   radio "Extended", 8, 44 83 38 10
