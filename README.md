@@ -1,6 +1,3 @@
-> [!NOTE]  
-> Due to lack of time I dont update the code and script anymore.
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/turbosmurfen/spoton/main/img/spoton_logo.png">
 </p>
@@ -17,9 +14,9 @@ Spoton running on mIRC 7.67
 
 * **Supported Operating System**: Windows 10 and 11.
 * **Visual C++ Redistributable 2015-2022 (x86)**  
-* **mIRC Version**: 7.61 - 7.78  
-* **Spotify Version**: 1.1.91 - 1.2.52  
-* **HDD/SSD Space**: 17,5 KB  
+* **mIRC Version**: 7.61 - 7.79  
+* **Spotify Version**: 1.2.59 and later.  
+* **HDD/SSD Space**: 29 KB  
 
 >[!NOTE]
 > mIRC and Spotify version ABOVE is not going to be updated frequently.
