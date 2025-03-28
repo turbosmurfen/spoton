@@ -18,7 +18,7 @@ https://github.com/marcuslonnberg/G930-Spotify-Controller
 
 /* Everything Else
 
-Copyright 2023 Turbosmurfen
+Copyright 2025 Turbosmurfen
 
 Licensed under the Creative Commons License, version 4.0
 https://creativecommons.org/licenses/by/4.0/
@@ -44,15 +44,18 @@ https://creativecommons.org/licenses/by/4.0/
 #pragma comment(linker, "/EXPORT:status=_status@24")
 #pragma comment(linker, "/EXPORT:control=_control@24")
 using namespace std;
-string text;
 vector<DWORD> pids;
-int status_ = 0;
-HWND hWNd;
 
-char version_[] = "1.2.0";
-char createdby[] = "Created by: Turbosmurfen";
+char version_[] = "1.2.1";
+char createdBy[] = "Created by: Turbosmurfen";
 
-//Media Control
+struct Info {
+	int status = 0;
+	string text = "";
+	HWND windowHwnd = nullptr;
+};
+Info infoData;
+
 enum MediaControl {
 	Play = 3014656, //APPCOMMAND_MEDIA_PLAY * 0x10000
 	Pause = 3080192, //APPCOMMAND_MEDIA_PAUSE * 0x10000 
@@ -63,8 +66,7 @@ enum MediaControl {
 	ForwardTrack = 3211264, //APPCOMMAND_MEDIA_FAST_FORWARD * 0x10000
 };
 
-
-void readData(wstring input, HWND hWnd) {
+void ConvertData(wstring input, HWND hWnd) {
 
 	//If input is not empty (Spotify met the conditions below)
 	if (!input.empty()) {
@@ -72,29 +74,50 @@ void readData(wstring input, HWND hWnd) {
 
 		//if these conditions are met, Spotify is paused.
 		if (wcscmp(wchar_0, L"Spotify Premium") == 0 || wcscmp(wchar_0, L"Spotify Free") == 0) {
-			status_ = 1;
-			hWNd = hWnd;
+			infoData.status = 1;
+			infoData.windowHwnd = hWnd;
+			infoData.text = "";
 		}
 		//if this condition is met, Spotify is playing an advertisement
 		else if (wcscmp(wchar_0, L"Advertisement") == 0) {
-			status_ = 2;
-			hWNd = hWnd;
+			infoData.status = 2;
+			infoData.windowHwnd = hWnd;
+			infoData.text = "";
 		}
 		//If not the conditions before is met, Spotify is playing a song
 		else {
-			int count = WideCharToMultiByte(CP_UTF8, 0, input.c_str(), input.length(), NULL, 0, NULL, NULL);
-			string str(count, 0);
-			WideCharToMultiByte(CP_UTF8, 0, input.c_str(), -1, &str[0], count, NULL, NULL);
-			replace(str.begin(), str.end(), '\n', ' ');
-			replace(str.begin(), str.end(), '\r', ' ');
-			text = str;
-			status_ = 3;
-			hWNd = hWnd;
+
+			//Convert to UTF-8.
+			int bufferSize = WideCharToMultiByte(CP_UTF8, 0, input.c_str(), -1, nullptr, 0, nullptr, nullptr);
+			if (bufferSize != 0) {
+				vector<char> multiByteStr(bufferSize);
+				WideCharToMultiByte(CP_UTF8, 0, input.c_str(), -1, multiByteStr.data(), bufferSize, nullptr, nullptr);
+
+				//Sanitise the text
+				replace(multiByteStr.begin(), multiByteStr.end(), '\r', ' ');
+				replace(multiByteStr.begin(), multiByteStr.end(), '\n', ' ');
+
+				//Convert UTF8 to string
+				string stringOut = string(multiByteStr.data());
+
+				infoData.status = 3;
+				infoData.windowHwnd = hWnd;
+				infoData.text = stringOut;
+
+				multiByteStr.clear();
+			}
+			else {
+				infoData.status = 4;
+				infoData.windowHwnd = nullptr;
+				infoData.text = "";
+			}
 		}
 	}
 	//If input is empty, there is no song playing in Spotify
 	else {
-		status_ = 0;
+		infoData.status = 0;
+		infoData.windowHwnd = nullptr;
+		infoData.text = "";
 	}
 }
 
@@ -117,7 +140,7 @@ static BOOL CALLBACK enumWindowCallback(HWND hWnd, LPARAM lparam) {
 	Process ids is really the Spotify Window.
 	*/
 	if (IsWindowVisible(hWnd) && length != 0 && find(pids.begin(), pids.end(), proc) != pids.end()) {
-		readData(wText, hWnd);
+		ConvertData(wText, hWnd);
 		return FALSE;
 	}
 	//If no condition is met, ignore everything else.
@@ -146,7 +169,7 @@ static void ReadData() {
 	CloseHandle(handle);
 	//If the process id's is empty. Spotify is not running.
 	if (pids.empty()) {
-		status_ = 0;
+		infoData.status = 0;
 	}
 	else {
 		//If the process id's is not empty (Spotify is running), run a check for running Windows.
@@ -159,11 +182,12 @@ static void ReadData() {
 extern "C" int __stdcall song(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
 	ReadData();
-	if (text.empty()) {
+	
+	if (infoData.text.empty()) {
 		return 0;
 	}
 	else {
-		strcpy_s(data, text.size() + 1, text.c_str());
+		strcpy_s(data, infoData.text.size() + 1, infoData.text.c_str());
 		return 3;
 	}
 }
@@ -172,13 +196,13 @@ extern "C" int __stdcall song(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BO
 extern "C" int __stdcall artist(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
 	ReadData();
-	if (text.empty()) {
+	if (infoData.text.empty()) {
 		return 0;
 	}
 	else {
-		size_t findPos = text.find(" - ");
+		size_t findPos = infoData.text.find(" - ");
 		if (findPos != std::string::npos) {
-			string artist = text.substr(0, findPos);
+			string artist = infoData.text.substr(0, findPos);
 			strcpy_s(data, artist.size() + 1, artist.c_str());
 			return 3;
 		}
@@ -192,13 +216,13 @@ extern "C" int __stdcall artist(HWND mWnd, HWND aWnd, CHAR * data, char* parms, 
 extern "C" int __stdcall title(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
 	ReadData();
-	if (text.empty()) {
+	if (infoData.text.empty()) {
 		return 0;
 	}
 	else {
-		size_t findPos = text.find(" - ");
+		size_t findPos = infoData.text.find(" - ");
 		if (findPos != std::string::npos) {
-			string title = text.substr(findPos + 3);
+			string title = infoData.text.substr(findPos + 3);
 			strcpy_s(data, title.size() + 1, title.c_str());
 			return 3;
 		}
@@ -216,39 +240,39 @@ extern "C" int __stdcall control(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
 	string cmd(data);
 	if (!cmd.empty()) {
 		ReadData();
-
+		 
 		//Plays or pauses a track
 		if (cmd == "playpause") {
-			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::PlayPause);
+			if (infoData.windowHwnd != nullptr) SendMessage(infoData.windowHwnd, WM_APPCOMMAND, 0, MediaControl::PlayPause);
 		}
 		//Plays a paused track
 		else if (cmd == "play") {
-			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::Play);
+			if (infoData.windowHwnd != nullptr) SendMessage(infoData.windowHwnd, WM_APPCOMMAND, 0, MediaControl::Play);
 		}
 		//Pauses a track if playing
 		else if (cmd == "pause") {
-			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::Pause);
+			if (infoData.windowHwnd != nullptr) SendMessage(infoData.windowHwnd, WM_APPCOMMAND, 0, MediaControl::Pause);
 		}
 		//Playing next track
 		else if (cmd == "next") {
-			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::NextTrack);
+			if (infoData.windowHwnd != nullptr) SendMessage(infoData.windowHwnd, WM_APPCOMMAND, 0, MediaControl::NextTrack);
 		}
 		//Plays track from beginning or previous track
 		else if (cmd == "previous") {
-			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::PreviousTrack);
+			if (infoData.windowHwnd != nullptr) SendMessage(infoData.windowHwnd, WM_APPCOMMAND, 0, MediaControl::PreviousTrack);
 		}
 		//Plays the track forward
 		else if (cmd == "forward") {
-			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::ForwardTrack);
+			if (infoData.windowHwnd != nullptr) SendMessage(infoData.windowHwnd, WM_APPCOMMAND, 0, MediaControl::ForwardTrack);
 		}
 		//plays the track backward
 		else if (cmd == "rewind") {
-			if (hWNd) SendMessage(hWNd, WM_APPCOMMAND, 0, MediaControl::RewindTrack);
+			if (infoData.windowHwnd != nullptr) SendMessage(infoData.windowHwnd, WM_APPCOMMAND, 0, MediaControl::RewindTrack);
 		}
 
 		//Open up Spotify window
 		else if (cmd == "show") {
-			if (hWNd) ShowWindow(hWNd, 1);
+			if (infoData.windowHwnd != nullptr) ShowWindow(infoData.windowHwnd, 1);
 		}
 	}
 	return 0;
@@ -257,7 +281,7 @@ extern "C" int __stdcall control(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
 //Sending out who made this project.
 extern "C" int __stdcall creator(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
-	strcpy_s(data, strlen(createdby) + 1, createdby);
+	strcpy_s(data, strlen(createdBy) + 1, createdBy);
 	return 3;
 }
 
@@ -277,6 +301,6 @@ extern "C" int __stdcall version(HWND mWnd, HWND aWnd, CHAR * data, char* parms,
 extern "C" int __stdcall status(HWND mWnd, HWND aWnd, CHAR * data, char* parms, BOOL show, BOOL nopause)
 {
 	ReadData();
-	strcpy_s(data, std::to_string(status_).size() + 1, std::to_string(status_).c_str());
+	strcpy_s(data, std::to_string(infoData.status).size() + 1, std::to_string(infoData.status).c_str());
 	return 3;
 }
