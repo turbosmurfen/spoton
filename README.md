@@ -1,3 +1,12 @@
+> [!IMPORTANT]  
+>I’ve decided to abandon this project and move on to other work.
+>It’s been difficult to say this, but I no longer have the energy to continue or to learn C++.
+>
+>For anyone looking for an updated add-on, I want to mention the project created by
+>realJoshByrnes, which includes the media player add-on:
+>https://github.com/irc-rs/m_nowplaying
+
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/turbosmurfen/spoton/main/img/spoton_logo.png">
 </p>
