@@ -1,12 +1,3 @@
-> [!IMPORTANT]  
->I’ve decided to abandon this project and move on to other work.
->It’s been difficult to say this, but I no longer have the energy to continue or to learn C++.
->
->For anyone looking for an updated add-on, I want to mention the project created by
->realJoshByrnes, which includes the media player add-on:
->https://github.com/irc-rs/m_nowplaying
-
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/turbosmurfen/spoton/main/img/spoton_logo.png">
 </p>
@@ -23,12 +14,9 @@ Spoton running on mIRC 7.67
 
 * **Supported Operating System**: Windows 10 and 11.
 * **Visual C++ Redistributable 2015-2022 (x86)**  
-* **mIRC Version**: 7.81 and later.  
-* **Spotify Version**: 1.2.70 and later.  
+* **mIRC Version**: 7.81 and later or earlier.  
+* **Spotify Version**: 1.2.70 and later or earlier.  
 * **HDD/SSD Space**: 29 KB  
-
->[!NOTE]
-> mIRC and Spotify version ABOVE is not going to be updated frequently.
 
 # Installation 
 
