@@ -1,3 +1,7 @@
+> [!IMPORTANT]  
+> Spoton will no longer be updated. I don’t see any point in continuing to code something that can’t be improved further.  
+> With better knowledge of the Windows Media API, I can create something that is much better.
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/turbosmurfen/spoton/main/img/spoton_logo.png">
 </p>
