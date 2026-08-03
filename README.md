@@ -1,5 +1,5 @@
 > [!IMPORTANT]  
-> Spoton will no longer be updated. I don’t see any point in continuing to code something that can’t be improved further.  
+> Spoton last release 1.2.2.  
 > With better knowledge of the Windows Media API, I can create something that is much better.
 
 <p align="center">
@@ -18,9 +18,9 @@ Spoton running on mIRC 7.67
 
 * **Supported Operating System**: Windows 10 and 11.
 * **Visual C++ Redistributable 2015-2022 (x86)**  
-* **mIRC Version**: 7.81 and later or earlier.  
-* **Spotify Version**: 1.2.70 and later or earlier.  
-* **HDD/SSD Space**: 29 KB  
+* **mIRC Version**: 7.67 and later or earlier.  
+* **Spotify Version**: 1.2.94 and later or earlier.  
+* **HDD/SSD Space**: 34 KB  
 
 # Installation 
 
@@ -43,7 +43,7 @@ Use: _$dll(spoton.dll,**command**,)_
 | --- | --- |  
 | version       | Version of the plugin |  
 | creator       | Credits of the plugin creator |  
-| status        | 0 - Spotify is not running, 1 - Spotify is paused, 2 - Spotify is playing an advertisement, 3 - Spotify is playing a track. |
+| status        | 0 - Spotify is not running, 1 - Spotify is paused, 2 - Spotify is playing an advertisement, 3 - Spotify is playing a track, 4 - Spotify is using DJ X. 5 - Error. |
 | song          | The entire window title, usually "artist - song title" |
 | artist        | If the title contains a dash ("-"), returns the left side, usually the artist. Otherwise, nothing. |
 | title         | If the title contains a dash ("-"), returns the right side, usually the song title. Otherwise, nothing. |
